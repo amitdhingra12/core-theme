@@ -20,7 +20,12 @@ define([
     function ($, api, _, Hypr, Backbone, HyprLiveContext,
     CustomerModels, CartModels, B2BAccountModels, ProductModalViews,
     ProductPicker, ProductModels, WishlistModels, MozuGrid, MozuGridCollection,
-        PagingViews, EditableView, QuoteModels) {
+    PagingViews, EditableView, QuoteModels) {
+        var nameFilter = "name cont ";
+        var expirationDateFilter  = "expirationdate ge ";
+        var timeComponent = "T00:00:00z";
+        var FILTERSTRING = "";
+        var timeout = null;
 
     var isSalesRep = require.mozuData('user').isSalesRep;
     var QuotesMozuGrid = MozuGrid.extend({
@@ -66,6 +71,39 @@ define([
             var self = this;
             Backbone.MozuView.prototype.render.apply(this, arguments);
             var collection = new QuotesGridCollectionModel({ autoload: true });
+            if (!self.model.get("b2bAccounts")) {
+                var b2bAccount = new B2BAccountModels.b2bAccounts({ pageSize: 200 });
+                b2bAccount.apiGet().then(function (accounts) {
+                    self.model.set("b2bAccounts", accounts);
+                    self.render();
+                });
+            }
+            
+            $('[data-mz-action="applyfilter"]').on('keyup input', function(e) {
+                e.preventDefault();
+                clearTimeout(timeout);
+                FILTERSTRING = "";
+                var dateValue ="";
+                var nameValue = $(this).val();
+                if ($("#expirationdate").val()!=="")
+                {                    
+                    dateValue  = $("#expirationdate").val();
+                }
+                timeout = setTimeout(function () {
+                    self.filterGrid(nameValue, dateValue, collection);
+                }, 1000);
+            });
+            $('[data-mz-action="applyDatefilter"]').on('change', function(e) {
+                e.preventDefault();
+                var nameValue ="";
+                if ($("#searchName").val()!=="")
+                {
+                    nameValue  = $("#searchName").val()+" and ";
+                }
+                var dateValue =  $(this).val();                    
+                self.filterGrid(nameValue, dateValue, collection);
+            });
+            
             if (isSalesRep) {
                 if (!self.model.get("b2bAccounts")) {
                     var b2bAccount = new B2BAccountModels.b2bAccounts({ pageSize: 200 });
@@ -78,13 +116,43 @@ define([
             this.initializeGrid(collection);
         },
 
+        filterGrid: function (nameValue, dateValue, collection) {
+            FILTERSTRING = "";
+            if (nameValue !== "") {
+                nameValue = nameFilter + nameValue;
+                FILTERSTRING = nameValue;
+                if (dateValue !== "") {
+                    dateValue = expirationDateFilter + dateValue + timeComponent;
+                    FILTERSTRING = FILTERSTRING + " and " + dateValue;
+                }
+                collection.filterBy(FILTERSTRING);
+            }
+            else if (dateValue !== "") {
+                FILTERSTRING = expirationDateFilter + dateValue + timeComponent;
+                collection.filterBy(FILTERSTRING);
+            } else if (nameValue === "") {
+                collection.filterBy("");
+            }
+        },
         initializeGrid: function (collection) {
             var self = this;
             self._quotesGridView = new QuotesMozuGrid({
                 el: $('.mz-b2b-quotes-grid'),
                 model: collection
             });
-        }
+        },
+        registerRowActions: function () {
+            var self = this;
+            var rowActions = this.model.get('rowActions');
+            _.each(rowActions, function (action) {
+                self[action.action] = function (e) {
+                    var rowNumber = $(e.target).parents('.mz-grid-row').data('mzRowIndex');
+                    var row = self.model.get('items').at(rowNumber - 1);
+                    self.model[action.action](e, row);
+                };
+            });
+        }     
+       
     });
 
     var QuoteEditView = Backbone.MozuView.extend({
@@ -108,7 +176,8 @@ define([
             });
 
             productPickerView.render();
-        },
+        },      
+
         startEditingQuoteName: function () {
             var self = this;
 
