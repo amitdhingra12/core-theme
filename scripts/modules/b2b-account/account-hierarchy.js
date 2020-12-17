@@ -20,10 +20,9 @@ define(["modules/jquery-mozu", 'modules/api', "underscore", "hyprlive", "modules
                 });
 
                 //fix margins
-                $(".node:not(:has(.caret))").css("margin-left", "-10px");
+                $(".node:not(:has(.caret))").addClass("fix-margin");
 
                 //open first node of the tree always
-                $(".account-hierarchy>ul.tree li").first().children(".node").children(".caret").addClass("caret-down");
                 $(".account-hierarchy>ul.tree li").first().children(".nested").addClass("active");
             });
         },
@@ -32,6 +31,9 @@ define(["modules/jquery-mozu", 'modules/api', "underscore", "hyprlive", "modules
             $(e.currentTarget).toggleClass("caret-down");
         },
         showThreeDotsMenu: function (e) {
+            //hide all menus first
+            $(".account-hierarchy .dropdown-content").removeClass("active");
+            //show menu
             $(e.currentTarget).closest('li').children('.dropdown-content').toggleClass("active");
         },
         addChildAccount: function (e) {
@@ -44,6 +46,7 @@ define(["modules/jquery-mozu", 'modules/api', "underscore", "hyprlive", "modules
         collapseAll: function (e) {
             $(".tree .caret").removeClass("caret-down");
             $(".nested").removeClass("active");
+            $(".account-hierarchy>ul.tree li").first().children(".nested").addClass("active");
         },
         viewAccount: function (e) {
             //todo: need to implement this method in future.
@@ -56,7 +59,7 @@ define(["modules/jquery-mozu", 'modules/api', "underscore", "hyprlive", "modules
     });
 
     var AccountHierarchyModel = Backbone.MozuModel.extend({
-        mozuType: 'accounthierarchy',
+        mozuType: 'b2bAccountHierarchy',
         initialize: function () {
             var self = this;
             self.initApiModel();
@@ -66,7 +69,7 @@ define(["modules/jquery-mozu", 'modules/api', "underscore", "hyprlive", "modules
             });
             self.set("isUserAdmin", self.isUserAdmin());
         },
-        isUserHavingBehavior: function (behaviorId) {
+        userHasBehavior: function (behaviorId) {
             var behaviors = require.mozuData('user').behaviors;
             if (behaviors) {
                 return behaviors.includes(behaviorId);
@@ -75,53 +78,44 @@ define(["modules/jquery-mozu", 'modules/api', "underscore", "hyprlive", "modules
         },
         isUserAdmin: function () {
             //Only admin should have 1000 behavior.
-            return this.isUserHavingBehavior(1000);
+            //1000 (Manage Account Information) -> B2B (admin) shopper should be able to modify info about their B2B account.
+            return this.userHasBehavior(1000);
         },
         isUserPurchaser: function () {
             //purchaser have 1005 behavior
-            return !this.isUserAdmin() && this.isUserHavingBehavior(1005);
+            //1005 (Purchase Order) -> B2B shopper should be able to use the account's purchase order for payment.
+            return !this.isUserAdmin() && this.userHasBehavior(1005);
         },
         processAccountHierarchy: function (data) {
             var self = this;
             if (data.hierarchy) {
-                self.setAccountOnHierarchy(data.hierarchy, data.accounts);
+                //set a flag on top node of the account hierarchy
+                data.hierarchy.isTopAccount = true;
+                self.setAccountOnHierarchy(data.hierarchy, data.accounts, false);
             }
             return data.hierarchy;
         },
-        setAccountOnHierarchy: function (item, accounts, isCurrentAccountChildrens) {
+        setAccountOnHierarchy: function (item, accounts, isDescendantOfAssociatedAccount) {
             var self = this;
-            // isCurrentAccountChildrens will be null/false initially but when current account is logged in users account then set it to true. so we can use this to show menu on children.
-            if (!isCurrentAccountChildrens) {
+            // isDescendantOfAssociatedAccount - This parameter will be false until recursion finds the account associated with the current user. On further recursion it will enable descendant behaviors.
+            if (!isDescendantOfAssociatedAccount) {
                 //Check whether this is a current logged in users associated account.
-                isCurrentAccountChildrens = require.mozuData('user').accountId === item.id;
+                isDescendantOfAssociatedAccount = require.mozuData('user').accountId === item.id;
                 //set "View Account" menu on current account.
-                item.isViewAccount = isCurrentAccountChildrens && (self.isUserAdmin() || self.isUserPurchaser());
+                item.canViewAccount = isDescendantOfAssociatedAccount && (self.isUserAdmin() || self.isUserPurchaser());
             }
             else {
-                //set menu's on all current accounts children accounts.
-                item.isViewAccount = self.isUserAdmin() || self.isUserPurchaser();
-                item.isChangeParentAccount = self.isUserAdmin();
+                //set menu's on all current associated accounts descendant accounts.
+                item.canViewAccount = self.isUserAdmin() || self.isUserPurchaser();
+                item.canChangeParentAccount = self.isUserAdmin();
             }
 
             item.account = self.getAccount(item.id, accounts);
 
             if (item.children) {
-                //do recursive call for children's 
-                self.processAccountHierarchyChildrens(item.children, accounts,
-                    isCurrentAccountChildrens
-                );
-            }
-        },
-        processAccountHierarchyChildrens: function (childrens, accounts, isCurrentAccountChildrens) {
-            var self = this;
-            //for top node in hierarchy (which is not a list)
-            if (childrens.id) {
-                self.setAccountOnHierarchy(childrens, accounts, isCurrentAccountChildrens);
-            }
-            else {
-                //If children is a list then loop over them.
-                for (var i = 0; i < childrens.length; i++) {
-                    self.setAccountOnHierarchy(childrens[i], accounts, isCurrentAccountChildrens);
+                //loop over descendants.
+                for (var i = 0; i < item.children.length; i++) {
+                    self.setAccountOnHierarchy(item.children[i], accounts, isDescendantOfAssociatedAccount);
                 }
             }
         },

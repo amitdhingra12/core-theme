@@ -28,14 +28,15 @@
     }
 
     ul.tree ul {
-        margin-left: 22px;
+        margin-left: 16.5px;
+        margin-top: 5px;
     }
 
     ul.tree li {
         margin: 0;
         padding: 5px 7px;
         line-height: 20px;
-        border-left: 1px solid rgb(100, 100, 100);
+        border-left: 2px solid rgb(100, 100, 100);
     }
 
     ul.tree li:last-child {
@@ -48,15 +49,16 @@
         height: 1em;
         width: 45px;
         color: white;
-        border-bottom: 1px solid rgb(100, 100, 100);
+        border-bottom: 2px solid rgb(100, 100, 100);
         content: "";
         display: inline-block;
-        left: -7px;
+        left: -8px;
         z-index: -10;
     }
 
     ul.tree li:last-child:before {
-        border-left: 1px solid rgb(100, 100, 100);
+        border-left: 2px solid rgb(100, 100, 100);
+        left: -7px;
     }
 
     .caret {
@@ -72,17 +74,33 @@
 
     .caret::before {
         content: '';
-        background: url('/resources/images/plus.jpg');
+        background: url('../resources/images/plus.jpg');
         color: black;
         display: inline-block;
-        margin-right: 6px;
-        height: 13px;
-        width: 13px;
+        margin-right: 3px;
+        height: 16px;
+        width: 16px;
+        top: 2.5px;
+        left: -8px;
+        position: relative;
+    }
+
+    .caret::after {
+        border-left: 2px solid rgb(100, 100, 100);
+    }
+
+    .caret-user {
+        cursor: default !important;
+    }
+
+    .caret-user::before {
+        content: '';
+        background: url('../resources/images/user.jpg') !important;
     }
 
     .caret-down::before {
         content: '';
-        background: url('/resources/images/minus.jpg');
+        background: url('../resources/images/minus.jpg');
     }
 
     .nested {
@@ -104,10 +122,13 @@
         padding: 2px 0px 2px 10px;
     }
 
+    .node-content .three-dots {
+        cursor: pointer;
+    }
+
     .node-content .three-dots::after {
         content: '\2807';
         margin-left: 15px;
-        cursor: pointer;
     }
     //drop-down menu
     .dropdown {
@@ -127,6 +148,7 @@
         margin-top: 2px;
         border: 1px solid black;
         border-top: none;
+        right: auto !important;
     }
 
     .dropdown-content a {
@@ -148,5 +170,10 @@
     .disabled {
         color: #a3a3a3 !important;
         border-color: #a3a3a3 !important;
+        cursor: not-allowed !important;
+    }
+
+    .fix-margin {
+        margin-left:-10px;
     }
 }

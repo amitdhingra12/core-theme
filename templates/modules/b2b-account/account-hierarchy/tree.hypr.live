@@ -1,22 +1,27 @@
 <li>
   <div class="node">
     <span 
-      {% if tree.children and tree.children.length > 0 %} class="caret" data-mz-action="toggleNodes" {% endif %} >
+      {% if tree.isTopAccount %}  
+        class="caret caret-user"
+      {% else %}
+        {% if tree.children and tree.children.length > 0 %} class="caret" data-mz-action="toggleNodes" {% endif %}
+      {% endif %}
+      >      
     </span>
     <div 
     {% if tree.account.isActive==true %} class="node-content" {% else %}
         class="node-content disabled" {% endif %}>
       {{tree.account.companyOrOrganization}}
       <span 
-      {% if (tree.isViewAccount or tree.isChangeParentAccount) and tree.account.isActive==true %} class="three-dots" data-mz-action="showThreeDotsMenu" {% else %}
+      {% if (tree.canViewAccount or tree.canChangeParentAccount) and tree.account.isActive==true %} class="three-dots" data-mz-action="showThreeDotsMenu" {% else %}
       class="three-dots disabled" {% endif %}
       ></span>
     </div>
   </div>
-  {% if (tree.isViewAccount or tree.isChangeParentAccount) and tree.account.isActive==true %}
+  {% if (tree.canViewAccount or tree.canChangeParentAccount) and tree.account.isActive==true %}
         <div class="dropdown-content">
-           {% if tree.isViewAccount == true %} <a href="#" data-mz-value="{{tree.id}}" data-mz-action="viewAccount">View Account</a> {% endif %}
-           {% if tree.isChangeParentAccount == true %} <a href="#" data-mz-value="{{tree.id}}" data-mz-action="changeParentAccount" >Change Parent Account</a> {% endif %}
+           {% if tree.canViewAccount == true %} <a href="#" data-mz-value="{{tree.id}}" data-mz-action="viewAccount">View Account</a> {% endif %}
+           {% if tree.canChangeParentAccount == true %} <a href="#" data-mz-value="{{tree.id}}" data-mz-action="changeParentAccount" >Change Parent Account</a> {% endif %}
         </div>
     {% endif %}
   {% if tree.children and tree.children.length > 0 %}
