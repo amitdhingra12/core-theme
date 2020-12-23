@@ -1,11 +1,7 @@
 <li>
   <div class="node">
     <span 
-      {% if tree.isTopAccount %}  
-        class="caret caret-user"
-      {% else %}
         {% if tree.children and tree.children.length > 0 %} class="caret" data-mz-action="toggleNodes" {% endif %}
-      {% endif %}
       >      
     </span>
     <div 

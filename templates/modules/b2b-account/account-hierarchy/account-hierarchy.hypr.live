@@ -7,6 +7,7 @@
       <li data-mz-action="expandAll">{{ labels.expandAll }}</li>
       <li data-mz-action="collapseAll">{{ labels.collapseAll }}</li>
     </ul>
+    <div class="root-node-space"></div>
     {% if model.hierarchy %}
     <ul class="tree">
       {% include "modules/b2b-account/account-hierarchy/hierarchy" with tree_list=model.hierarchy %}
