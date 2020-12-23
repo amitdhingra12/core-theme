@@ -25,10 +25,17 @@ define([
         var expirationDateFilter  = "expirationdate ge ";
         var timeComponent = "T00:00:00z";
         var FILTERSTRING = "";
+        var timeout = null;
+
     var QuotesMozuGrid = MozuGrid.extend({
         render: function () {
             var self = this;
-            this.populateWithB2BAccounts();
+            if (window.location.pathname.toLowerCase().indexOf("selleraccount") >= 0) {
+                this.populateWithB2BAccounts();
+            }
+            else {
+                MozuGrid.prototype.render.apply(self, arguments);
+            }
         },
         populateWithB2BAccounts: function () {
             var self = this;
@@ -37,14 +44,14 @@ define([
             self.model.get('items').models.forEach(function (quote) {
                 var accId = quote.get('customerAccountId');
 
-                var b2bAccount = new B2BAccountModels.b2bAccount({ id: accId });
-                b2bAccount.apiGet().then(function (account) {
-                    quote.set('accountName', account.data.companyOrOrganization);
-                    count++;
-                    if (callLength === count) {
-                        MozuGrid.prototype.render.apply(self, arguments);
-                    }
-                });
+                    var b2bAccount = new B2BAccountModels.b2bAccount({ id: accId });
+                    b2bAccount.apiGet().then(function (account) {
+                        quote.set('accountName', account.data.companyOrOrganization);
+                        count++;
+                        if (callLength === count) {
+                            MozuGrid.prototype.render.apply(self, arguments);
+                        }
+                    });
             });
 
             return self.model;
@@ -67,8 +74,10 @@ define([
                     self.render();
                 });
             }
-            $('[data-mz-action="applyfilter"]').on('change input', function(e) {
+            $('[data-mz-action="applyfilter"]').on('keyup input', function(e) {
                 e.preventDefault();
+                clearTimeout(timeout);
+
                 FILTERSTRING = "";
                 var dateValue ="";
                 var nameValue = $(this).val();
@@ -76,8 +85,9 @@ define([
                 {                    
                     dateValue  = $("#expirationdate").val();
                 }
-                self.filterGrid(nameValue, dateValue, collection);
-                
+                timeout = setTimeout(function () {
+                    self.filterGrid(nameValue, dateValue, collection);
+                }, 1000);
                 });
              $('[data-mz-action="applyDatefilter"]').on('change', function(e) {
                 e.preventDefault();
