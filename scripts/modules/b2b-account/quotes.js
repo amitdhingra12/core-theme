@@ -30,12 +30,16 @@ define([
     var QuotesMozuGrid = MozuGrid.extend({
         render: function () {
             var self = this;
-            if (window.location.pathname.toLowerCase().indexOf("selleraccount") >= 0) {
+            var isSalesRep = require.mozuData('user').isSalesRep;
+            if (isSalesRep)
+            {
                 this.populateWithB2BAccounts();
             }
-            else {
+            else
+            {
                 MozuGrid.prototype.render.apply(self, arguments);
             }
+            
         },
         populateWithB2BAccounts: function () {
             var self = this;
@@ -68,7 +72,7 @@ define([
             Backbone.MozuView.prototype.render.apply(this, arguments);
             var collection = new QuotesGridCollectionModel({ autoload: true }); 
             if (!self.model.get("b2bAccounts")) {
-                var b2bAccount = new B2BAccountModels.b2bAccounts();
+                var b2bAccount = new B2BAccountModels.b2bAccounts({ pageSize: 200 });
                 b2bAccount.apiGet().then(function (accounts) {
                     self.model.set("b2bAccounts", accounts);
                     self.render();
@@ -204,17 +208,23 @@ define([
                 displayName: 'Expiration Date',
                 sortable: true,
                 displayTemplate: function (value) {
-                    var date = new Date(value);
-                    return date.toLocaleString();
+                    var date = "";
+                    if (value) {
+                        date = new Date(value).toLocaleString();
+                    }
+                    return date;
                 }
             },
             {
                 index: 'submittedDate',
-                displayName: 'Created',
+                displayName: 'Submitted Date',
                 sortable: true,
                 displayTemplate: function (value) {
-                    var date = new Date(value);
-                    return date.toLocaleString();
+                    var date = "";
+                    if (value) {
+                        date = new Date(value).toLocaleString();
+                    }
+                    return date;
                 }
             },
             {
