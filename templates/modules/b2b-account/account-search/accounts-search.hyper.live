@@ -1,0 +1,34 @@
+{% require_script "modules/b2b-account/b2b-contacts" %}
+{% extends "modules/common/modal-dialog" %}
+{% block modal-body %}
+<div id="quotes-messages">
+    {% include "modules/common/message-bar" with model=model.messages %}
+</div>
+<div class="mz-l-stack-section mz-orderlist" style="clear:none">
+    
+    <div class="mz-b2b-quotes">
+        <div class="mz-quotes-grid-container">  
+          </div>
+        <div><button class="mz-button" data-mz-action="CreateNewQuote" >{{labels.createQuote}}</button></div>
+    </div>   
+        <div>
+            <input type="text" name="searchName" id="searchName" data-mz-action="applyfilter" placeholder="Search Name">        
+            <input type="text" name="searchName" id="searchName" data-mz-action="applyfilter" placeholder="Search Name">        
+            <input type="text" name="searchName" id="searchName" data-mz-action="applyfilter" placeholder="Search Name">          
+            <input type="text" name="searchName" id="searchName" data-mz-action="applyfilter" placeholder="Search Name">        
+            <input type="text" name="searchName" id="searchName" data-mz-action="applyfilter" placeholder="Search Name">        
+            <input type="text" name="searchName" id="searchName" data-mz-action="applyfilter" placeholder="Search Name">        
+        </div>      
+        <div class="mz-b2b-quotes-grid">
+            <div class="is-loading"></div>
+            {% include "modules/b2b-account/account-search/accounts-search-grid" %}
+        </div>
+      
+</div>
+{% endblock modal-body %} 
+ <div class="modal-footer">
+        {% block modal-footer %}
+          <button type="button" class="mz-button" data-mz-action="handleDialogCancel">Close</button>
+          <button type="button" class="mz-button" data-mz-action="handleDialogSave">Create quote</button>
+        {% endblock modal-footer %}
+      </div>
