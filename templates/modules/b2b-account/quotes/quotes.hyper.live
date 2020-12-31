@@ -1,6 +1,9 @@
 {% require_script "modules/b2b-account/quotes" %}
+
 <div id="quotes-messages">
+
     {% include "modules/common/message-bar" with model=model.messages %}
+    
 </div>
 {% if user.isSalesRep %}
 <div>
@@ -15,9 +18,10 @@
                 {% if acc.data.id %}
                 <option value={{acc.data.id}}>{{acc.data.companyOrOrganization}}</option>
                 {% endif %}
-            {% endfor %}
-        </select>
-    </div>
+            {% endfor %}                  
+        </select>  
+        <button class="mz-button" data-mz-action="search-address" >{{labels.searchByAddress}}</button>       
+    </div>     
 </div>
 <br />
 {% endif %}
