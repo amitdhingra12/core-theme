@@ -1,4 +1,5 @@
 {% require_script "modules/b2b-account/b2b-contacts" %}
+
 {% extends "modules/common/modal-dialog" %}
 {% block modal-body %}
 <div id="quotes-messages">

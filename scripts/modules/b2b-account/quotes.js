@@ -107,6 +107,12 @@ define([
                 self.filterGrid(nameValue, dateValue, collection);
             });            
             
+            $('[data-mz-action="search-address"]').click(function(){              
+                modalView.renderView();
+                modalView.render();
+               
+            });
+        
             this.initializeGrid(collection);
         },
 
