@@ -8,23 +8,21 @@
     <b>{{labels.accountSearch}}</b>
     </span>
     <br />
-
-  <div>
-    <select class="mz-l-formfieldgroup-halfsize" style="width:300px" data-mz-value="" >
-      <option selected="selected" value="">{{labels.accountSearchLabel}}</option>
-     {% for acc in model.b2bAccounts %}
-       {% if acc.data.id %}
-        <option value={{acc.data.id}}>{{acc.data.companyOrOrganization}}</option>
-       {% endif %}
-     {% endfor %}
-    </select>
-
-    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <button class="mz-button">{{labels.searchByAddress}}</button>
-   </div>
+    <div>
+        <select class="mz-l-formfieldgroup-halfsize" style="width:300px" data-mz-value="">
+            <option selected="selected" value="">{{labels.accountSearchLabel}}</option>
+            {% for acc in model.b2bAccounts %}
+                {% if acc.data.id %}
+                <option value={{acc.data.id}}>{{acc.data.companyOrOrganization}}</option>
+                {% endif %}
+            {% endfor %}                  
+        </select>
+    </div>
+   <button class="mz-button" data-mz-action="search-address" >{{labels.searchByAddress}}</button> 
 </div>
-<br/>
-{% endif %}
-<div style="padding-bottom: 10px;"><button class="mz-button">{{labels.createQuote}}</button></div>
+<br />
+{% endif %}  
+<div style="padding-bottom: 10px;"><button class="mz-button" >{{labels.createQuote}}</button></div>
 <div class="mz-l-stack-section mz-orderlist" style="clear:none">
     <h3 class="mz-l-stack-sectiontitle">{{ labels.quotes }}</h3>
     <div class="mz-b2b-quotes">

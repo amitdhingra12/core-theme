@@ -110,7 +110,9 @@ define([
                 });
             
             $('[data-mz-action="search-address"]').click(function(){              
-               modalView.render();
+                modalView.renderView();
+                modalView.render();
+               
             });
         
             this.initializeGrid(collection);

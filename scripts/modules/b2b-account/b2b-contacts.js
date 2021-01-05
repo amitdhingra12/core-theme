@@ -62,105 +62,21 @@ define([
        
     });  
 
-    var B2bContactsGridCollectionModel= MozuGridCollection.extend({
-        mozuType: 'quotes',
-        defaultSort: 'submittedDate desc',
+    
+    var B2bContactsGridCollectionModel = MozuGridCollection.extend({
+        mozuType: 'b2bcontacts',       
         columns: [
             {
-                index: 'name',
-                displayName: 'Quote Name',
+                index: 'accountName',
+                displayName: 'Account Name',
                 sortable: false
-            },
-            {
-                index: 'expirationDate',
-                displayName: 'Expiration Date',
-                sortable: true,
-                displayTemplate: function (value) {
-                    var date = "";
-                    if (value) {
-                        date = new Date(value).toLocaleString();
-                    }
-                    return date;
-                }
-            },
-            {
-                index: 'submittedDate',
-                displayName: 'Submitted Date',
-                sortable: true,
-                displayTemplate: function (value) {
-                    var date = "";
-                    if (value) {
-                        date = new Date(value).toLocaleString();
-                    }
-                    return date;
-                }
-            },
-            {
-                index: 'total',
-                displayName: 'Total',
-                sortable: false,
-                displayTemplate: function (amount) {
-                    return '$' + amount.toFixed(2);
-                }
-            },
-            {
-                index: 'status',
-                displayName: 'Status',
-                sortable: false
-            }
-        ],
-        rowActions: [
-            {
-                displayName: 'Edit Quote',
-                action: 'editQuote'
-            },
-            {
-                displayName: 'Delete Quote',
-                action: 'deleteQuote'
-            },
-            {
-                displayName: 'Copy Quote',
-                action: 'copyQuote'
-            },
-            {
-                displayName: 'Email Quote',
-                action: 'emailQuote'
-            }
-        ],
-        relations: {
+            }           
+        ],relations: {
             items: Backbone.Collection.extend({
-                model: QuoteModels.Quote
+                model: B2bModels.B2bContact
             })
-        },
-        editQuote: function (e, row) {
-            var quoteId = row.get('id');
-            window.location = '/myaccount/quote/' + quoteId + '/edit';
-        },
-        deleteQuote: function () {
-            this.trigger('deleteQuoteView');
-        },
-        copyQuote: function () {
-            this.set('copyQuoteView');
-        },
-        emailQuote: function () {
-            this.set('emailQuoteView');
-        }
+        }      
     });
-    
-    // var B2bContactsGridCollectionModel = MozuGridCollection.extend({
-    //     mozuType: 'b2bcontacts',       
-    //     columns: [
-    //         {
-    //             index: 'accountName',
-    //             displayName: 'Account Name',
-    //             sortable: false
-    //         }           
-    //     ],relations: {
-    //         items: Backbone.Collection.extend({
-    //             model: B2bModels.B2bContact
-    //         })
-    //     }      
-    // });
 
     return {
         'B2bContactsView': B2bContactsView     
