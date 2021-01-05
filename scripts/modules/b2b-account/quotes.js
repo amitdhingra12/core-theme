@@ -102,17 +102,8 @@ define([
                 }
                 var dateValue =  $(this).val();                    
                 self.filterGrid(nameValue, dateValue, collection);
-            });
+            });            
             
-            if (isSalesRep) {
-                if (!self.model.get("b2bAccounts")) {
-                    var b2bAccount = new B2BAccountModels.b2bAccounts({ pageSize: 200 });
-                    b2bAccount.apiGet().then(function (accounts) {
-                        self.model.set("b2bAccounts", accounts);
-                        self.render();
-                    });
-                }
-            }
             this.initializeGrid(collection);
         },
 
