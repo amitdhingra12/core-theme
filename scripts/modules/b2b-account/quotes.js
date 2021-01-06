@@ -25,7 +25,7 @@ define([
         var nameFilter = "name cont ";
         var expirationDateFilter  = "expirationdate ge ";
         var timeComponent = "T00:00:00z";
-        var FILTERSTRING = "";
+        var filterstring = "";
         var timeout = null;
 
     var isSalesRep = require.mozuData('user').isSalesRep;
@@ -132,17 +132,16 @@ define([
             
             $('[data-mz-action="applyfilter"]').on('keyup input', function(e) {
                 e.preventDefault();
-                clearTimeout(timeout);
-                FILTERSTRING = "";
-                var dateValue ="";
+                clearTimeout(timeout);                
+                var dateValue = "";
                 var nameValue = $(this).val();
-                if ($("#expirationdate").val()!=="")
+                if ($("#expirationdate").val() !== "")
                 {                    
                     dateValue  = $("#expirationdate").val();
                 }
                 timeout = setTimeout(function () {
                     self.filterGrid(nameValue, dateValue, collection);
-                }, 1000);
+                }, 400);
             });
             $('[data-mz-action="applyDatefilter"]').on('change', function(e) {
                 e.preventDefault();
@@ -165,19 +164,19 @@ define([
         },
 
         filterGrid: function (nameValue, dateValue, collection) {
-            FILTERSTRING = "";
+            filterstring = "";
             if (nameValue !== "") {
                 nameValue = nameFilter + nameValue;
-                FILTERSTRING = nameValue;
+                filterstring = nameValue;
                 if (dateValue !== "") {
                     dateValue = expirationDateFilter + dateValue + timeComponent;
-                    FILTERSTRING = FILTERSTRING + " and " + dateValue;
+                    filterstring = filterstring + " and " + dateValue;
                 }
-                collection.filterBy(FILTERSTRING);
+                collection.filterBy(filterstring);
             }
             else if (dateValue !== "") {
-                FILTERSTRING = expirationDateFilter + dateValue + timeComponent;
-                collection.filterBy(FILTERSTRING);
+                filterstring = expirationDateFilter + dateValue + timeComponent;
+                collection.filterBy(filterstring);
             } else if (nameValue === "") {
                 collection.filterBy("");
             }
