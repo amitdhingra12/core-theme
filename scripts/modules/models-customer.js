@@ -401,7 +401,8 @@
                 pageSize: 5
             };
 
-            if (window.location.pathname.toLowerCase().indexOf("selleraccount") < 0) {
+            var isSalesRep = require.mozuData('user').isSalesRep;
+            if (!isSalesRep) {
                 _.defer(function (cust) {
                     cust.getCards();
                 }, self);
