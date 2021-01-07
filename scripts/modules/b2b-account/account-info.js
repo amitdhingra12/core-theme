@@ -1,4 +1,5 @@
 define(["modules/jquery-mozu", 'modules/api', "underscore", "hyprlive", "modules/backbone-mozu", "hyprlivecontext", 'modules/editable-view', "modules/models-customer", "modules/models-b2b-account", "modules/models-address"], function ($, api, _, Hypr, Backbone, HyprLiveContext, EditableView, CustomerModels, B2BAccountModels, AddressModels) {
+    var pageContext = require.mozuData('pagecontext');
     var InfoView = EditableView.extend({
         templateName: "modules/b2b-account/account-info/account-info",
         autoUpdate: [
@@ -24,13 +25,14 @@ define(["modules/jquery-mozu", 'modules/api', "underscore", "hyprlive", "modules
               address: new AddressModels.StreetAddress({})
           });
           this.model.set('editingContact', blankContact);
-
-          return this.model.getAttributes().then(function(customer) {
-              customer.get('attributes').each(function(attribute) {
-                  attribute.set('attributeDefinitionId', attribute.get('id'));
-              });
-              return customer;
-          });
+          if (!pageContext.viewB2BAccount) {
+            return this.model.getAttributes().then(function (customer) {
+                customer.get('attributes').each(function (attribute) {
+                    attribute.set('attributeDefinitionId', attribute.get('id'));
+                });
+                return customer;
+            });
+          }
         },
         startEdit: function(e){
           e.preventDefault();
