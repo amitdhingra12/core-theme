@@ -148,7 +148,7 @@ define([
                 var nameValue ="";
                 if ($("#searchName").val()!=="")
                 {
-                    nameValue  = $("#searchName").val()+" and ";
+                    nameValue  = $("#searchName").val();
                 }
                 var dateValue =  $(this).val();                    
                 self.filterGrid(nameValue, dateValue, collection);
