@@ -1,6 +1,12 @@
 {% require_script "modules/b2b-account/b2b-contacts" %}
 
 {% extends "modules/common/modal-dialog" %}
+ <div class="modal-header">
+      {% block modal-header %}
+        <button type="button" class="close" aria-hidden="true"  data-dismiss="modal">×</button>
+        <h4 class="modal-title"></h4>
+      {% endblock modal-header %}
+      </div>
 {% block modal-body %}
 <div id="quotes-messages">
     {% include "modules/common/message-bar" with model=model.messages %}
@@ -10,17 +16,19 @@
     <div class="mz-b2b-quotes">
         <div class="mz-quotes-grid-container">  
           </div>
-        <div><button class="mz-button" data-mz-action="CreateNewQuote" >{{labels.createQuote}}</button></div>
+        <div><button class="mz-button" data-mz-action="clearSearch" >{{labels.clearSearch}}</button></div>
     </div>   
+    </br>
         <div>
-            <input type="text" name="searchName" id="searchName" data-mz-action="applyfilter" placeholder="Search Name">        
-            <input type="text" name="searchName" id="searchName" data-mz-action="applyfilter" placeholder="Search Name">        
-            <input type="text" name="searchName" id="searchName" data-mz-action="applyfilter" placeholder="Search Name">          
-            <input type="text" name="searchName" id="searchName" data-mz-action="applyfilter" placeholder="Search Name">        
-            <input type="text" name="searchName" id="searchName" data-mz-action="applyfilter" placeholder="Search Name">        
-            <input type="text" name="searchName" id="searchName" data-mz-action="applyfilter" placeholder="Search Name">        
+            <input type="text" name="searchName"    id="searchName"     data-mz-action="addfilter" placeholder="Search Name">        
+            <input type="text" name="searchEmail"   id="searchEmail"    data-mz-action="addEmailfilter" placeholder="Search Email">  
+            <input type="text" name="searchAddress" id="searchAddress"  data-mz-action="addAddressfilter" placeholder="Search Address">          
+            <input type="text" name="searchCity"    id="searchCity"     data-mz-action="addCityfilter" placeholder="Search City">        
+            <input type="text" name="searchState"   id="searchState"    data-mz-action="addStatefilter" placeholder="Search State">      
+            <input type="text" name="searchCountry" id="searchCountry"  data-mz-action="addCountryfilter" placeholder="Search Country">    
+            <input type="text" name="searchZipCode" id="searchZipCode"  data-mz-action="addZipCodefilter" placeholder="Search ZipCode">    
         </div>      
-        <div class="mz-b2b-quotes-grid">
+        <div class="mz-b2b-contacts-grid">
             <div class="is-loading"></div>
             {% include "modules/b2b-account/account-search/accounts-search-grid" %}
         </div>
@@ -29,7 +37,7 @@
 {% endblock modal-body %} 
  <div class="modal-footer">
         {% block modal-footer %}
-          <button type="button" class="mz-button" data-mz-action="handleDialogCancel">Close</button>
+          <button type="button" class="mz-button" data-dismiss="modal" data-mz-action="handleDialogCancel">Close</button>
           <button type="button" class="mz-button" data-mz-action="handleDialogSave">Create quote</button>
         {% endblock modal-footer %}
-      </div>
+  </div>

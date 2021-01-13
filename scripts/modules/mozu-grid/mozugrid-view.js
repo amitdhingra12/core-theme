@@ -32,6 +32,12 @@ define(["modules/jquery-mozu", "underscore", "modules/backbone-mozu", "modules/v
                 };
             });
         },
+        selectRow:function(e)
+        {   
+            var self = this;
+            var rowNumber = $(e.target).parents('.mz-grid-row').data('mzRowIndex');
+            var row = self.model.get('items').at(rowNumber-1);            
+        },
         refreshGrid: function () {
             this.model.refreshGrid();
         },
