@@ -62,6 +62,21 @@ define(["modules/jquery-mozu", "underscore", "modules/backbone-mozu", "modules/v
                         model: self.model
                     })
                 };
+
+                _.each(self.model.columns, function (item) {
+                    if (item.sortable) {
+                        $('#' + item.index).addClass('mz-grid-sortIcon');
+                    }
+                });
+
+                if (this.model.lastRequest.sortBy !== 'desc') {
+                    $('#' + this.model.lastRequest.sortBy.split(' ')[0] + ' > span').addClass('mz-unsort');
+                }
+                if (this.model.lastRequest.sortBy.split(' ')[1] === 'desc') {
+                    $('#' + this.model.lastRequest.sortBy.split(' ')[0] + ' > span').addClass('mz-sort-down');
+                } else if (this.model.lastRequest.sortBy.split(' ')[1] === 'asc') {
+                    $('#' + this.model.lastRequest.sortBy.split(' ')[0] + ' > span').addClass('mz-sort-up');
+                } 
             }
 
 
