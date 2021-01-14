@@ -68,13 +68,15 @@ define(["modules/jquery-mozu",
                             $('#' + item.index).addClass('mz-grid-sortIcon');
                         }
                     });
-                    if ($('#' + sort_ID[0] ).data('sortorder') === sort_ID[1]) {
-                        $('#' + sort_ID[0]).attr('data-sortOrder', this.model.lastRequest.sortBy.split(' ')[1]);
-                        $('#' + sort_ID[0] + ' > span').html('&#9650');
-                    } else {
-                        $('#' + sort_ID[0]).attr('data-sortOrder', this.model.lastRequest.sortBy.split(' ')[1]);
-                        $('#' + sort_ID[0] + ' > span').html('&#9660');
+                                        
+                    if (this.model.lastRequest.sortBy !== 'desc') { 
+                        $('#' + this.model.lastRequest.sortBy.split(' ')[0] + ' > span').addClass('mz-unsort');
                     }
+                    if (this.model.lastRequest.sortBy.split(' ')[1] === 'desc') {
+                        $('#' + this.model.lastRequest.sortBy.split(' ')[0] +' > span').addClass('mz-sort-down');
+                    } else if (this.model.lastRequest.sortBy.split(' ')[1] === 'asc') {
+                        $('#' + this.model.lastRequest.sortBy.split(' ')[0] + ' > span').addClass('mz-sort-up');
+                    } 
                     
                 }
                 _.invoke(views, 'render');

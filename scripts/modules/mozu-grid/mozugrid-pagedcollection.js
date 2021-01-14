@@ -45,9 +45,18 @@ var MozuGridPagedCollection = Backbone.MozuPagedCollection.extend({
                 var currentDirection = currentSort.split(" ")[1];
                 if (currentDirection === "asc") {
                     sortDirection = "desc";
+                } else if (currentDirection === "desc") {
+                    sortDirection = "";
+                } else if(currentDirection === "") {
+                    sortDirection = "asc";
                 }
             }
-            this.sortBy(index + ' ' + sortDirection);
+            if (sortDirection === "") {
+                this.sortBy(null);
+            } else {
+                this.sortBy(index + ' ' + sortDirection);
+            }
+            
         }
     },
     refreshGrid: function(){
