@@ -116,9 +116,12 @@ define([
         },   
         callbackForGridSelection: function(data) 
         {
+            /* function will get called to get selected row data
+             This will be used on create quote button
+             this will be used in future implementation */
             if(data !== undefined)
             {
-                console.log(data.apiModel.data.accountId);
+               
             }
         },
        
