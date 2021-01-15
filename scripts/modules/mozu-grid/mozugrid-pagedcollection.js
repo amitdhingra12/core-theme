@@ -1,5 +1,5 @@
 define(["underscore", "modules/backbone-mozu"], function ( _, Backbone) {
-
+var sortAction = [];
 var MozuGridPagedCollection = Backbone.MozuPagedCollection.extend({
     mozuType: 'search',
     defaults: {
@@ -37,23 +37,30 @@ var MozuGridPagedCollection = Backbone.MozuPagedCollection.extend({
     ],
     apiGridRead: false,
     sort: function(index){
-        var col = _.findWhere(this.get('columns'), {index: index});
+        var col = _.findWhere(this.get('columns'), {index: index});       
         if (col && col.sortable) {
             var currentSort = this.currentSort();
             var sortDirection = "asc";
             if (currentSort) {
                 var currentDirection = currentSort.split(" ")[1];
-                if (currentDirection === "asc") {
-                    sortDirection = "desc";
-                } else if (currentDirection === "desc") {
-                    sortDirection = "";
-                } else if(currentDirection === "") {
+                if (currentDirection === "desc") {
                     sortDirection = "asc";
+                    sortAction.push(currentSort.split(" ")[0]);
+                } else if (currentDirection === "asc") {
+                    sortDirection = "desc";
+                    sortAction.push(currentSort.split(" ")[0]);
+                }
+                if (!_.contains(sortAction, index)) {
+                    sortAction.length = 0;
                 }
             }
-            if (sortDirection === "") {
+            if (sortAction.length === 2) {
                 this.sortBy(null);
+                sortAction.length = 0;
             } else {
+                if (sortAction.length === 0) {
+                    sortDirection = "desc";
+                }
                 this.sortBy(index + ' ' + sortDirection);
             }
             

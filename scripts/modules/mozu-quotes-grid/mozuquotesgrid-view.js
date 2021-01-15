@@ -2,8 +2,7 @@ define(["modules/jquery-mozu",
     "underscore",
     "modules/backbone-mozu",
     "modules/views-paging"],
-    function ($, _, Backbone, PagingViews) {
-        var sort_ID = []; 
+    function ($, _, Backbone, PagingViews) { 
         var mozuQuotesGridView = Backbone.MozuView.extend({
             templateName: 'modules/mozuquotesgrid/grid',
             initialize: function () {
@@ -38,7 +37,6 @@ define(["modules/jquery-mozu",
             sort: function (e) {
                 e.preventDefault();
                 var col = $(e.currentTarget).data('mzColIndex');
-                sort_ID = [e.target.id, e.target.dataset.sortorder];
                 return this.model.sort(col);
             },
             filter: function (e) {
@@ -68,14 +66,16 @@ define(["modules/jquery-mozu",
                             $('#' + item.index).addClass('mz-grid-sortIcon');
                         }
                     });
-                                        
-                    if (this.model.lastRequest.sortBy !== 'desc') { 
-                        $('#' + this.model.lastRequest.sortBy.split(' ')[0] + ' > span').addClass('mz-unsort');
+                    var currentSort = this.model.currentSort();
+                    var currentIndex = currentSort.split(" ")[0];
+                    var currentDirection = currentSort.split(" ")[1];
+                    if (currentDirection !== 'desc') { 
+                        $('#' + currentIndex + ' > span').addClass('mz-unsort');
                     }
-                    if (this.model.lastRequest.sortBy.split(' ')[1] === 'desc') {
-                        $('#' + this.model.lastRequest.sortBy.split(' ')[0] +' > span').addClass('mz-sort-down');
-                    } else if (this.model.lastRequest.sortBy.split(' ')[1] === 'asc') {
-                        $('#' + this.model.lastRequest.sortBy.split(' ')[0] + ' > span').addClass('mz-sort-up');
+                    if (currentDirection === 'desc') {
+                        $('#' + currentIndex +' > span').addClass('mz-sort-down');
+                    } else if (currentDirection === 'asc') {
+                        $('#' + currentIndex + ' > span').addClass('mz-sort-up');
                     } 
                     
                 }
