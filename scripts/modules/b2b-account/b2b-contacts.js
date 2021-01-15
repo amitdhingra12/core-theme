@@ -17,6 +17,8 @@ define([
         var timeComponent = "T00:00:00z";
         var filterstring = "";
         var timeout = null;
+        var pubsub = {};
+       
        
     var B2bContactsMozuGrid = MozuGrid.extend({
         render: function () {
@@ -29,11 +31,15 @@ define([
         templateName: "modules/b2b-account/account-search/accounts-search",
         initialize: function () {       
           Backbone.MozuView.prototype.initialize.apply(this, arguments);
-        },
+         
+            
+        },        
         render: function () {
             var self = this;
             Backbone.MozuView.prototype.render.apply(this, arguments);
-            var collection = new B2bContactsGridCollectionModel({ autoload: true });  
+            var collection = new B2bContactsGridCollectionModel({ autoload: true }); 
+            _.extend(collection, Backbone.Events);
+            collection.bind('custom:event',this.callbackForGridSelection, this);            
             this.initializeGrid(collection);     
             this.$modal = this.$('.modal');
         },      
@@ -42,7 +48,7 @@ define([
             self._b2bContactGridView = new B2bContactsMozuGrid({
                 el: $('.mz-b2b-contacts-grid'),
                 model: collection
-            });    
+            });
             $('[data-mz-action="addfilter"]').on('keyup input', function(e) {
                 e.preventDefault();               
                 clearTimeout(timeout);             
@@ -85,15 +91,37 @@ define([
                 timeout = setTimeout(function () {
                     self.filterGrid(collection, self);
                 }, 400); 
-            }); $('[data-mz-action="addZipCodefilter"]').on('keyup input', function(e) {
+            }); 
+            $('[data-mz-action="addZipCodefilter"]').on('keyup input', function(e) {
                 e.preventDefault();                                                
                 clearTimeout(timeout);             
                 timeout = setTimeout(function () {
                     self.filterGrid(collection, self);
                 }, 400); 
-            });        
+            });      
+            $('[data-mz-action="clearSearch"]').on('click', function(e) {
+                 $("#searchName").val("");
+                 $("#searchAddress").val("");
+                 $("#searchCity").val("");
+                 $("#searchState").val("");
+                 $("#searchEmail").val("");
+                 $("#searchCountry").val("");
+                 $("#searchZipCode").val("") ;
+                 clearTimeout(timeout);             
+                 timeout = setTimeout(function () {
+                 self.filterGrid(collection, self);
+                 }, 400); 
+            });  
                 
-        },       
+        },   
+        callbackForGridSelection: function(data) 
+        {
+            if(data !== undefined)
+            {
+                console.log(data.apiModel.data.accountId);
+            }
+        },
+       
         filterGrid:function(collection, self)
         {
             var accountstring ="accountname cont";
@@ -144,12 +172,7 @@ define([
             }
             filterstring =filterstring + searchstring + " " + searchvalue; 
 
-        },
-        handleDialogCancel:function()
-        {            
-            this.model.trigger('dialogClose');           
-            $(Backbone.MozuView.prototype).hide();
-        },        
+        },              
         renderView: function(template) {
             this.$el.html(this.template);
             this.$el.modal({show:true}); // dont show modal on instantiation
@@ -233,7 +256,7 @@ define([
             items: Backbone.Collection.extend({
                 model: B2bModels.B2bContact
             })
-        }      
+        }        
     });
 
     return {

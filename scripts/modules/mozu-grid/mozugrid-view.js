@@ -36,7 +36,12 @@ define(["modules/jquery-mozu", "underscore", "modules/backbone-mozu", "modules/v
         {   
             var self = this;
             var rowNumber = $(e.target).parents('.mz-grid-row').data('mzRowIndex');
-            var row = self.model.get('items').at(rowNumber-1);            
+            _.each($(e.target).parents('.mz-grid-row').parent('div'), function(action){
+                $('.mz-grid-body > div').removeClass('mz-grid-selectedRow');
+            });
+            $(e.target).parents('.mz-grid-row').addClass('mz-grid-selectedRow');
+            var row = self.model.get('items').at(rowNumber-1);   
+            this.model.trigger('custom:event', row);
         },
         refreshGrid: function () {
             this.model.refreshGrid();
