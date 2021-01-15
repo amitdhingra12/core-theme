@@ -1,8 +1,9 @@
-{% if pageContext.viewB2BAccount == true %}
+
+{% if model.viewB2BAccount == true %}
    <h2>{{ labels.buyers }}</h3>
 {% endif %}
    
-{% if model.hasRequiredBehavior and pageContext.viewB2BAccount == false %}
+{% if model.hasRequiredBehavior and model.viewB2BAccount == false %}
   <button class="mz-button mz-button-large add-user-btn" data-mz-action="addNewUser">Add User</button>
 {% endif %}
 <div class="mz-b2baccount-users">

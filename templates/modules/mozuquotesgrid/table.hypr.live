@@ -43,7 +43,6 @@
               {% if model.rowActions %}
               <div class="mz-grid-row-actions">
                         <div class="mz-grid-column mz-quotes-grid-dropdown">
-                          {% if pageContext.viewB2BAccount == false %}
                           <button data-mz-action="toggleDropdown" class="dropbtn"></button>
                             <div id="quotesDropdown{{forloop.index}}" class="dropdown-content">
                             {% for action in model.rowActions %}
@@ -52,7 +51,6 @@
                                 {% endif %}
                             {% endfor %}                                
                             </div>
-                          {% endif %}
                         </div>
                     </div>
                 {% endif %}

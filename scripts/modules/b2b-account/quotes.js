@@ -28,10 +28,9 @@ define([
         var filterstring = "";
         var timeout = null;
 
-    var isSalesRep = require.mozuData('user').isSalesRep;
-    var pageContext = require.mozuData('pagecontext');
-    var accountDict = {};
-    var uniqueAccountId = [];
+        var isSalesRep = require.mozuData('user').isSalesRep;
+        var accountDict = {};
+        var uniqueAccountId = [];
     var QuotesMozuGrid = MozuGrid.extend({
         render: function () {
             var self = this;
@@ -121,8 +120,9 @@ define([
         render: function () {
             var self = this;
             Backbone.MozuView.prototype.render.apply(this, arguments);
+            var viewB2BAccount = self.model.attributes.viewB2BAccount;
             var collection;
-            if (pageContext.viewB2BAccount) {
+            if (viewB2BAccount) {
                 collection = new B2BViewAccountQuotesGridCollectionModel({ autoload: true });
             }
             else {

@@ -7,7 +7,7 @@
 <span class="mz-accountsettings-label mz-account-settings-label-name">B2B Account ID</span>
 <div>{{ model.id }}</div>
 
-{% if pageContext.viewB2BAccount == false %}
+{% if model.viewB2BAccount == false %}
 <h3 style="font-size: 16px">User Info{% if not model.editing %}<a href class="mz-b2b-link-edit-accountsettings" data-mz-action="startEdit">{{ labels.edit }}</a>{% endif %}</h3>
 <span class="mz-accountsettings-label mz-account-settings-label-name">{{ labels.firstName }} / {{ labels.lastName }}</span>
 {% if model.editing %}
