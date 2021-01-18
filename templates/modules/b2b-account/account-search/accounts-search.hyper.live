@@ -26,7 +26,7 @@
             <input type="text" name="searchCity"  class="searchIcon"  id="searchCity"     data-mz-action="addCityfilter" placeholder="City">        
             <input type="text" name="searchState"  class="searchIcon" id="searchState"    data-mz-action="addStatefilter" placeholder="State">      
             <input type="text" name="searchCountry" class="searchIcon" id="searchCountry"  data-mz-action="addCountryfilter" placeholder="Country">    
-            <input type="text" name="searchZipCode" class="searchIcon" id="searchZipCode"  data-mz-action="addZipCodefilter" placeholder="ZipCode">    
+            <input type="text" name="searchZipCode" class="searchIcon" id="searchZipCode"  data-mz-action="addZipCodefilter" placeholder="Zip Code">    
         </div>      
         <div class="mz-b2b-contacts-grid">
             <div class="is-loading"></div>

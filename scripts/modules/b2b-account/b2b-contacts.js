@@ -247,7 +247,7 @@ define([
             },
             {
                 index: 'address',
-                displayName: 'ZipCode',
+                displayName: 'Zip Code',
                 sortable: false,
                 displayTemplate: function(address){
                     var postalOrZipCode = address.postalOrZipCode;
