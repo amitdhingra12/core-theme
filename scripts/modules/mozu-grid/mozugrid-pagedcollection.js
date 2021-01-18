@@ -37,33 +37,36 @@ var MozuGridPagedCollection = Backbone.MozuPagedCollection.extend({
     ],
     apiGridRead: false,
     sort: function(index){
-        var col = _.findWhere(this.get('columns'), {index: index});       
+        var col = _.findWhere(this.get('columns'), { index: index });
         if (col && col.sortable) {
             var currentSort = this.currentSort();
-            var sortDirection = "asc";
+            var currentIndex = null;
+            var currentDirection = null;
+            var sortDirection = "asc"; // Default sort direction
             if (currentSort) {
-                var currentDirection = currentSort.split(" ")[1];
-                if (currentDirection === "desc") {
-                    sortDirection = "asc";
-                    sortAction.push(currentSort.split(" ")[0]);
-                } else if (currentDirection === "asc") {
-                    sortDirection = "desc";
-                    sortAction.push(currentSort.split(" ")[0]);
-                }
-                if (!_.contains(sortAction, index)) {
-                    sortAction.length = 0;
-                }
+                var split = currentSort.split(" ");
+                currentIndex = split[0];
+                currentDirection = split[1];
             }
-            if (sortAction.length === 2) {
+            // Sort column changed. Handles unsorted case as well.
+            if (index !== currentIndex) {
+                // Sort ascending by default
+                this.sortBy(index + " " + sortDirection);
+                return;
+            }
+            // Sort column did not change. Update sort direction.
+            // Order: asc => desc => unsorted
+            if (currentDirection === "asc") {
+                sortDirection = "desc";
+            } else if (currentDirection === "desc") {
+                sortDirection = null; // Unsorted
+            }
+            // Remove sort if unsorted
+            if (sortDirection === null) {
                 this.sortBy(null);
-                sortAction.length = 0;
-            } else {
-                if (sortAction.length === 0) {
-                    sortDirection = "desc";
-                }
-                this.sortBy(index + ' ' + sortDirection);
+                return;
             }
-            
+            this.sortBy(index + ' ' + sortDirection);
         }
     },
     refreshGrid: function(){
