@@ -126,10 +126,7 @@ define([
         },   
         callbackForGridSelection: function(data) 
         {
-            if(data !== undefined)
-            {
-                console.log(data.apiModel.data.accountId);
-            }
+          //todo:add Code for create quote call
         },
        
         filterGrid:function(collection, self)
