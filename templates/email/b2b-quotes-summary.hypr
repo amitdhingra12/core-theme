@@ -104,7 +104,7 @@
                         </td>
                         <td>
                             {% if model.adjustment and model.adjustment.amount != 0 %}
-                                <p><b>Adjustments:</b> </p>
+                                <p><b>{{labels.quoteAdjustments}}:</b> </p>
                             {% endif %}
                            <p><b>{{labels.itemTotal}}:</b> </p>
                            <p><b>{{labels.shippingInformation}}:</b> </p>
