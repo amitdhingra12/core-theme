@@ -11,14 +11,15 @@
       </div>
 {% block modal-body %} 
  <div>
-
+<form>
 <table class="mz-child-account-table">
   <tr>
     <th>{{labels.companyName}}<span class="is-required"> *</span></th>    
   </tr>
   <tr>
      <td>
-        <input type="text" id="companyName" class="mz-child-text" placeholder="company Name">        
+        <input type="text" id="companyName" data-mz-action="validateIsRequired" class="mz-child-text" placeholder="company Name">  
+         <span class="mz-validationmessage" data-mz-validationmessage-for="companyName"></span>         
     </td>    
   </tr>
     <tr>
@@ -34,15 +35,18 @@
     </tr>
   <tr>
     <td>
-         <input type="text" id="firstName" class="mz-child-text" placeholder="First Name">        
+         <input type="text" id="firstName" data-mz-action="validateIsRequired" class="mz-child-text" placeholder="First Name"> 
+           <span class="mz-validationmessage" data-mz-validationmessage-for="firstName"></span>       
     </td>    
   </tr>
     <tr>
-        <th>{{labels.userLastName}}<span class="is-required"> *</span></th>    
+        <th>{{labels.userLastName}}<span class="is-required"> *</span></th> 
+                
     </tr>
   <tr>
     <td>
-         <input type="text" id="lastName" class="mz-child-text" placeholder="Last Name">        
+         <input type="text" id="lastName"  data-mz-action="validateIsRequired"  class="mz-child-text" placeholder="Last Name">        
+          <span class="mz-validationmessage" data-mz-validationmessage-for="lastName"></span>  
     </td>    
   </tr>
     <tr>
@@ -50,7 +54,8 @@
     </tr>
   <tr>
     <td>
-        <input type="email" data-mz-value="email" id="email" class="mz-child-text" placeholder="Enter your email">  
+        <input type="email" data-mz-action="validateIsRequired" data-mz-value="email" id="email" class="mz-child-text" placeholder="Enter your email">  
+        <span class="mz-validationmessage" data-mz-validationmessage-for="email"></span>
           
     </td>    
   </tr>
@@ -60,7 +65,7 @@
   <tr>
     <td>
       <div>
-        <select class="mz-l-formfieldgroup-halfsize mz-child-dropdown" style="width:300px" data-mz-value="">
+        <select class="mz-l-formfieldgroup-halfsize mz-child-dropdown" id="dropdown" data-mz-action="validateIsRequired" style="width:300px" data-mz-value="">
             <option selected="selected" value="">{{labels.accountSearchLabel}}</option>
             {% for acc in model.b2bAccounts%}
                 {% if acc.id %}
@@ -68,16 +73,19 @@
                 {% endif %}                 
             {% endfor %}
         </select>
+         <span class="mz-validationmessage" data-mz-validationmessage-for="dropdown"></span>
     </div>  
     </td>    
   </tr>
 </table>
 
+</form>
+
 </div>
 {% endblock modal-body %} 
  <div class="modal-footer mz-child-modal">
         {% block modal-footer %}
-          <button type="button" class="mz-button" data-mz-action="createAccount">Create Account</button>
+          <button type="submit" class="mz-button" data-mz-action="createAccount">Create Account</button>
           <button type="button" class="mz-button mz-cancel-button" data-dismiss="modal" data-mz-action="handleDialogCancel">Cancel</button>          
         {% endblock modal-footer %}
   </div>
