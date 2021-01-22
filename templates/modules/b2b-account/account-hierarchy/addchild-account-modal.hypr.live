@@ -10,6 +10,10 @@
       {% endblock modal-header %}
       </div>
 {% block modal-body %} 
+<div id="quotes-messages">
+    {% include "modules/common/message-bar" with model=model.messages %}
+    {% include "modules/b2b-account/quotes/quote-error-message-bar" with model=model %}
+</div>
  <div>
 <form>
 <table class="mz-child-account-table">
@@ -18,7 +22,7 @@
   </tr>
   <tr>
      <td>
-        <input type="text" id="companyName" data-mz-action="validateIsRequired" class="mz-child-text" placeholder="company Name">  
+        <input type="text" id="companyName" class="mz-child-text" placeholder="Company Name">  
          <span class="mz-validationmessage" data-mz-validationmessage-for="companyName"></span>         
     </td>    
   </tr>
