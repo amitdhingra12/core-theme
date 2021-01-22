@@ -72,8 +72,8 @@
         <select class="mz-l-formfieldgroup-halfsize mz-child-dropdown" id="dropdown" data-mz-action="validateIsRequired" style="width:300px" data-mz-value="">
             <option selected="selected" value="">{{labels.accountSearchLabel}}</option>
             {% for acc in model.b2bAccounts%}
-                {% if acc.id %}
-                <option value={{acc.id}}>{{acc.companyOrOrganization}}</option>
+                {% if acc.account.id %}
+                <option value={{acc.account.id}}>{{acc.account.companyOrOrganization}}</option>
                 {% endif %}                 
             {% endfor %}
         </select>

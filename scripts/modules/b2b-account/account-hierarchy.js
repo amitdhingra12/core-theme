@@ -1,6 +1,7 @@
 define(["modules/jquery-mozu", 'modules/api', "underscore", "hyprlive", "modules/backbone-mozu", "hyprlivecontext", 'modules/models-customer', 'modules/b2b-account/child-account'], function ($, api, _, Hypr, Backbone, HyprLiveContext, CustomerModels, ChildAccount) {
 
     var childAccountPopup =  new ChildAccount.childPopupView({model:CustomerModels.EditableCustomer.fromCurrent()});
+    var userChildAccounts = [];
     var AccountHierarchyView = Backbone.MozuView.extend({
         templateName: "modules/b2b-account/account-hierarchy/account-hierarchy",
         render: function () {
@@ -38,11 +39,10 @@ define(["modules/jquery-mozu", 'modules/api', "underscore", "hyprlive", "modules
             //show menu
             $(e.currentTarget).closest('li').children('.dropdown-content').toggleClass("active");
         },
-        addChildAccount: function (e) {
-            //todo: need to implement this method in future.
-            var self = this;
+        addChildAccount: function (e) {            
+            var self = this;           
             childAccountPopup.renderView();
-            childAccountPopup.render(self.model);          
+            childAccountPopup.render(userChildAccounts);          
         },
         expandAll: function (e) {
             $(".tree .caret").addClass("caret-down");
@@ -63,6 +63,7 @@ define(["modules/jquery-mozu", 'modules/api', "underscore", "hyprlive", "modules
             var accountId = e.currentTarget.dataset.mzValue;
         }
     });
+
 
     var AccountHierarchyModel = Backbone.MozuModel.extend({
         mozuType: 'b2bAccountHierarchy',
@@ -110,10 +111,14 @@ define(["modules/jquery-mozu", 'modules/api', "underscore", "hyprlive", "modules
                 //set "View Account" menu on current account.
                 item.canViewAccount = isDescendantOfAssociatedAccount && (self.isUserAdmin() || self.isUserPurchaser());
             }
-            else {
+            else {               
                 //set menu's on all current associated accounts descendant accounts.
                 item.canViewAccount = self.isUserAdmin() || self.isUserPurchaser();
                 item.canChangeParentAccount = self.isUserAdmin();
+            }
+            if(item.canViewAccount===   true)
+            {
+                userChildAccounts.push(item);
             }
 
             item.account = self.getAccount(item.id, accounts);
