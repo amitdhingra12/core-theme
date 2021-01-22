@@ -1,0 +1,70 @@
+{% require_script "modules/b2b-account/child-account" %}
+
+{% extends "modules/common/modal-dialog" %} 
+ 
+ <div class="modal-header">
+      {% block modal-header %}
+        <button type="button" class="close" aria-hidden="true"  data-dismiss="modal">×</button>
+        <h4 class="modal-title"></h4>
+      {% endblock modal-header %}
+      </div>
+{% block modal-body %} 
+ <div>
+<table class="mz-child-account-table">
+  <tr>
+    <th>Company Name</th>    
+  </tr>
+  <tr>
+     <td>
+        <input type="text" class="mz-child-text" name="searchName" placeholder="Search Name">        
+    </td>    
+  </tr>
+    <tr>
+        <th>Tax Id</th>    
+  </tr>
+  <tr>
+    <td>
+         <input type="text" class="mz-child-text" name="searchName" placeholder="Search Name">        
+    </td>    
+  </tr>
+    <tr>
+        <th>User First Name</th>    
+    </tr>
+  <tr>
+    <td>
+         <input type="text" class="mz-child-text" name="searchName" placeholder="Search Name">        
+    </td>    
+  </tr>
+    <tr>
+        <th>User Last Name</th>    
+    </tr>
+  <tr>
+    <td>
+         <input type="text" class="mz-child-text" name="searchName" placeholder="Search Name">        
+    </td>    
+  </tr>
+    <tr>
+        <th>User Email</th>    
+  </tr>
+  <tr>
+    <td>
+        <input type="email" class="mz-child-text" placeholder="Enter your email">        
+    </td>    
+  </tr>
+    <tr>
+        <th>Parent Account</th>    
+  </tr>
+  <tr>
+    <td>
+        <input type="text" class="mz-child-text" name="searchName" placeholder="Search Name">        
+    </td>    
+  </tr>
+</table>
+</div>
+{% endblock modal-body %} 
+ <div class="modal-footer">
+        {% block modal-footer %}
+          <button type="button" class="mz-button mz-child-button" data-mz-action="handleDialogSave">Create Account</button>
+          <button type="button" class="mz-button mz-child-button" data-dismiss="modal" data-mz-action="handleDialogCancel">Cancel</button>          
+        {% endblock modal-footer %}
+  </div>

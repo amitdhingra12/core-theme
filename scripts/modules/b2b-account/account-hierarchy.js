@@ -1,5 +1,6 @@
-define(["modules/jquery-mozu", 'modules/api', "underscore", "hyprlive", "modules/backbone-mozu", "hyprlivecontext", 'modules/models-customer'], function ($, api, _, Hypr, Backbone, HyprLiveContext, CustomerModels) {
+define(["modules/jquery-mozu", 'modules/api', "underscore", "hyprlive", "modules/backbone-mozu", "hyprlivecontext", 'modules/models-customer', 'modules/b2b-account/child-account'], function ($, api, _, Hypr, Backbone, HyprLiveContext, CustomerModels, ChildAccount) {
 
+    var childAccountPopup =  new ChildAccount.childPopupView({model:CustomerModels.EditableCustomer.fromCurrent()});
     var AccountHierarchyView = Backbone.MozuView.extend({
         templateName: "modules/b2b-account/account-hierarchy/account-hierarchy",
         render: function () {
@@ -39,6 +40,8 @@ define(["modules/jquery-mozu", 'modules/api', "underscore", "hyprlive", "modules
         },
         addChildAccount: function (e) {
             //todo: need to implement this method in future.
+            childAccountPopup.renderView();
+            childAccountPopup.render();          
         },
         expandAll: function (e) {
             $(".tree .caret").addClass("caret-down");
