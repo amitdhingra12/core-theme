@@ -49,7 +49,7 @@ define([
             {
                 "users":  [
                   {
-                      "emailAddress": $("#email").val(),
+                      "emailAddress": $("#digital-fulfillment-email").val(),
                       "userName": $("#companyName").val(),
                       "firstName": $("#firstName").val(),
                       "lastName": $("#lastName").val(),

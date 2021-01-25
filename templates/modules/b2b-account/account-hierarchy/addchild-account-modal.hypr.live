@@ -4,8 +4,9 @@
  
  <div class="modal-header">
       {% block modal-header %}
+     
         <button type="button" class="close" aria-hidden="true"  data-dismiss="modal">×</button>
-        <h4 class="modal-title"></h4>
+        <h4 class="modal-title">  Add Child Account </h4>
       {% endblock modal-header %}
       </div>
 {% block modal-body %} 
@@ -13,7 +14,7 @@
 
 <table class="mz-child-account-table">
   <tr>
-    <th>Company Name</th>    
+    <th>{{labels.companyName}}<span class="is-required"> *</span></th>    
   </tr>
   <tr>
      <td>
@@ -21,7 +22,7 @@
     </td>    
   </tr>
     <tr>
-        <th>Tax Id</th>    
+        <th>{{labels.taxId}}</th>    
   </tr>
   <tr>
     <td>
@@ -29,7 +30,7 @@
     </td>    
   </tr>
     <tr>
-        <th>User First Name</th>    
+        <th>{{labels.userFirstName}}<span class="is-required"> *</span></th>    
     </tr>
   <tr>
     <td>
@@ -37,7 +38,7 @@
     </td>    
   </tr>
     <tr>
-        <th>User Last Name</th>    
+        <th>{{labels.userLastName}}<span class="is-required"> *</span></th>    
     </tr>
   <tr>
     <td>
@@ -45,15 +46,16 @@
     </td>    
   </tr>
     <tr>
-        <th>User Email</th>    
-  </tr>
+        <th>{{labels.email}} <span class="is-required"> *</span></th>  
+    </tr>
   <tr>
     <td>
-        <input type="email" id="email" class="mz-child-text" placeholder="Enter your email">        
+        <input type="email" data-mz-value="email" id="email" class="mz-child-text" placeholder="Enter your email">  
+          
     </td>    
   </tr>
     <tr>
-        <th>{{labels.accountSearch}}</th>    
+        <th>{{labels.parentAccount}}<span class="is-required"> *</span></th>    
   </tr>
   <tr>
     <td>
@@ -73,9 +75,9 @@
 
 </div>
 {% endblock modal-body %} 
- <div class="modal-footer">
+ <div class="modal-footer mz-child-modal">
         {% block modal-footer %}
           <button type="button" class="mz-button" data-mz-action="createAccount">Create Account</button>
-          <button type="button" class="mz-button" data-dismiss="modal" data-mz-action="handleDialogCancel">Cancel</button>          
+          <button type="button" class="mz-button mz-cancel-button" data-dismiss="modal" data-mz-action="handleDialogCancel">Cancel</button>          
         {% endblock modal-footer %}
   </div>
