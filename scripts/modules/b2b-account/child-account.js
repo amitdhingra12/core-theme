@@ -25,21 +25,49 @@ define([
     var childPopupView = Backbone.MozuView.extend({
         templateName: "modules/b2b-account/account-hierarchy/addchild-account-modal",
         initialize: function () {
-            Backbone.MozuView.prototype.initialize.apply(this, arguments);
+           Backbone.MozuView.prototype.initialize.apply(this, arguments);          
+           
         },
-        render: function () {
-            var self = this;
+        render: function (parentAccounts) {
+            var self = this;        
+          
             Backbone.MozuView.prototype.render.apply(this, arguments);
+            
+            if (!self.model.get("b2bAccounts")) {                   
+                self.model.set("b2bAccounts", parentAccounts.attributes.accounts);
+                    self.render();
+            } 
         },
-         renderView: function(template) {
+         renderView: function() {             
+            var self = this;           
             this.$el.html(this.template);
             this.$el.modal({show:true}); // dont show modal on instantiation
-          }      
-       
+          },    
+          createAccount: function()
+          {
+            var json = JSON.parse(JSON.stringify(
+            {
+                "users":  [
+                  {
+                      "emailAddress": $("#email").val(),
+                      "userName": $("#companyName").val(),
+                      "firstName": $("#firstName").val(),
+                      "lastName": $("#lastName").val(),
+                      "localeCode": "en-US",
+                      "acceptsMarketing": "false",
+                      "isActive": true
+                  }
+                ],
+                "parentAccountId": $( ".mz-l-formfieldgroup-halfsize" ).val(),
+                "companyOrOrganization":$( "#companyName" ).val(),
+                "accountType": "B2B"
+            }));
+            
+             var apib2bAccount = new B2BAccountModels.b2bAccount(json);
+             apib2bAccount.apiModel.create();         
+          }       
     });
-
        return {
-        'childPopupView': childPopupView
-        
+        'childPopupView': childPopupView        
     };
 });

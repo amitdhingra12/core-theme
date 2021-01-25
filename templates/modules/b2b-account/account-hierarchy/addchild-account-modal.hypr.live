@@ -10,13 +10,14 @@
       </div>
 {% block modal-body %} 
  <div>
+
 <table class="mz-child-account-table">
   <tr>
     <th>Company Name</th>    
   </tr>
   <tr>
      <td>
-        <input type="text" class="mz-child-text" name="searchName" placeholder="Search Name">        
+        <input type="text" id="companyName" class="mz-child-text" placeholder="company Name">        
     </td>    
   </tr>
     <tr>
@@ -24,7 +25,7 @@
   </tr>
   <tr>
     <td>
-         <input type="text" class="mz-child-text" name="searchName" placeholder="Search Name">        
+         <input type="text" id="taxId" class="mz-child-text" placeholder="Tax Id">        
     </td>    
   </tr>
     <tr>
@@ -32,7 +33,7 @@
     </tr>
   <tr>
     <td>
-         <input type="text" class="mz-child-text" name="searchName" placeholder="Search Name">        
+         <input type="text" id="firstName" class="mz-child-text" placeholder="First Name">        
     </td>    
   </tr>
     <tr>
@@ -40,7 +41,7 @@
     </tr>
   <tr>
     <td>
-         <input type="text" class="mz-child-text" name="searchName" placeholder="Search Name">        
+         <input type="text" id="lastName" class="mz-child-text" placeholder="Last Name">        
     </td>    
   </tr>
     <tr>
@@ -48,23 +49,33 @@
   </tr>
   <tr>
     <td>
-        <input type="email" class="mz-child-text" placeholder="Enter your email">        
+        <input type="email" id="email" class="mz-child-text" placeholder="Enter your email">        
     </td>    
   </tr>
     <tr>
-        <th>Parent Account</th>    
+        <th>{{labels.accountSearch}}</th>    
   </tr>
   <tr>
     <td>
-        <input type="text" class="mz-child-text" name="searchName" placeholder="Search Name">        
+      <div>
+        <select class="mz-l-formfieldgroup-halfsize mz-child-dropdown" style="width:300px" data-mz-value="">
+            <option selected="selected" value="">{{labels.accountSearchLabel}}</option>
+            {% for acc in model.b2bAccounts%}
+                {% if acc.id %}
+                <option value={{acc.id}}>{{acc.companyOrOrganization}}</option>
+                {% endif %}                 
+            {% endfor %}
+        </select>
+    </div>  
     </td>    
   </tr>
 </table>
+
 </div>
 {% endblock modal-body %} 
  <div class="modal-footer">
         {% block modal-footer %}
-          <button type="button" class="mz-button mz-child-button" data-mz-action="handleDialogSave">Create Account</button>
-          <button type="button" class="mz-button mz-child-button" data-dismiss="modal" data-mz-action="handleDialogCancel">Cancel</button>          
+          <button type="button" class="mz-button" data-mz-action="createAccount">Create Account</button>
+          <button type="button" class="mz-button" data-dismiss="modal" data-mz-action="handleDialogCancel">Cancel</button>          
         {% endblock modal-footer %}
   </div>

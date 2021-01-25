@@ -40,8 +40,9 @@ define(["modules/jquery-mozu", 'modules/api', "underscore", "hyprlive", "modules
         },
         addChildAccount: function (e) {
             //todo: need to implement this method in future.
+            var self = this;
             childAccountPopup.renderView();
-            childAccountPopup.render();          
+            childAccountPopup.render(self.model);          
         },
         expandAll: function (e) {
             $(".tree .caret").addClass("caret-down");
