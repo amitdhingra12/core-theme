@@ -1,0 +1,32 @@
+﻿{% extends "email/email" %}
+
+{% block body-content %}
+
+<!--- Header --->
+<div class="mz-b2b-email-header">  
+  <div class="header-logo">
+    <img src="https://kibocommerce.com/wp-content/themes/kibo/images/logo.png" alt="logo">
+  </div>  
+  <div class="header-text">
+    <div class="store-name">{{ siteContext.generalSettings.websiteName }}</div>
+    <div class="subject">{{ labels.b2bAccountInactive }}</div>
+  </div>
+</div>
+<br/>
+
+<div class="mz-b2b-email-body">
+  <!-- Display one of these phone numbers (firt non-empty): home, work, mobile -->
+  {% if model.contacts.0.phoneNumbers.home %}
+  {{ labels.b2bAccountInactiveBlob|string_format(model.contacts.0.phoneNumbers.home)|safe }}
+  {% else %}
+    {% if model.contacts.0.phoneNumbers.work %}
+      {{ labels.b2bAccountInactiveBlob|string_format(model.contacts.0.phoneNumbers.work)|safe }}
+    {% else %}
+      {{ labels.b2bAccountInactiveBlob|string_format(model.contacts.0.phoneNumbers.mobile)|safe }}
+    {% endif %}
+  {% endif %}
+  <br/>
+  {{ labels.emailThanks|string_format(siteContext.generalSettings.websiteName)|safe }}
+</div>
+
+{% endblock body-content %}
