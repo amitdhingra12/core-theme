@@ -175,7 +175,7 @@
             },
 
             filterBy: function (filterString) {               
-                this.startIndex = 0;
+                this.lastRequest.startIndex = 0;
                 return this.apiGet($.extend(this.lastRequest, { filter: filterString }));
             },
 
