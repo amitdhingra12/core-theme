@@ -18,6 +18,7 @@ define([
         var filterstring = "";
         var timeout = null;
         var pubsub = {};
+        var wordCount = 3;
        
        
     var B2bContactsMozuGrid = MozuGrid.extend({
@@ -30,8 +31,7 @@ define([
     var B2bContactsView = Backbone.MozuView.extend({
         templateName: "modules/b2b-account/account-address-search/account-address-search",
         initialize: function () {       
-          Backbone.MozuView.prototype.initialize.apply(this, arguments);
-         
+          Backbone.MozuView.prototype.initialize.apply(this, arguments);        
             
         },        
         render: function () {
@@ -52,7 +52,7 @@ define([
             $('[data-mz-action="addAddressfilter"]').on('keyup input', function(e) {
                 e.preventDefault();                                                
                 clearTimeout(timeout);        
-                if(($("#searchAddress").val().length>=3) || ($("#searchAddress").val().length === 0))
+                if(($("#searchAddress").val().length>=wordCount) || ($("#searchAddress").val().length === 0))
                 {
                 timeout = setTimeout(function () {
                     self.filterGrid(collection, self);
@@ -63,7 +63,7 @@ define([
             $('[data-mz-action="addCityfilter"]').on('keyup input', function(e) {
                 e.preventDefault();                                                
                 clearTimeout(timeout); 
-                if(($("#searchCity").val().length>=3) || ($("#searchCity").val().length === 0))
+                if(($("#searchCity").val().length>=wordCount) || ($("#searchCity").val().length === 0))
                 {            
                 timeout = setTimeout(function () {
                     self.filterGrid(collection, self);
@@ -73,17 +73,14 @@ define([
             $('[data-mz-action="addStatefilter"]').on('keyup input', function(e) {
                 e.preventDefault();                                                
                 clearTimeout(timeout);        
-                if(($("#searchState").val().length>=3) || ($("#searchState").val().length === 0))
-                {     
                 timeout = setTimeout(function () {
                     self.filterGrid(collection, self);
                 }, 400); 
-            }
             });  
             $('[data-mz-action="addEmailfilter"]').on('keyup input', function(e) {
                 e.preventDefault();                                                
                 clearTimeout(timeout);     
-                if(($("#searchEmail").val().length>=3) || ($("#searchEmail").val().length === 0))
+                if(($("#searchEmail").val().length>=wordCount) || ($("#searchEmail").val().length === 0))
                 {        
                 timeout = setTimeout(function () {
                     self.filterGrid(collection, self);
@@ -92,18 +89,16 @@ define([
             });  
             $('[data-mz-action="addCountryfilter"]').on('keyup input', function(e) {
                 e.preventDefault();                                                
-                clearTimeout(timeout);       
-                if(($("#searchCountry").val().length>=3) || ($("#searchCountry").val().length === 0))
-                {      
+                clearTimeout(timeout);    
                 timeout = setTimeout(function () {
                     self.filterGrid(collection, self);
                 }, 400); 
-            }
+            
             }); 
             $('[data-mz-action="addZipCodefilter"]').on('keyup input', function(e) {
                 e.preventDefault();                                                
                 clearTimeout(timeout);             
-                if(($("#searchZipCode").val()!=="") || ($("#searchZipCode").val().length === 0))
+                if(($("#searchZipCode").val().length>=wordCount) || ($("#searchZipCode").val().length === 0))
                 {
                 timeout = setTimeout(function () {
                     self.filterGrid(collection, self);
@@ -126,7 +121,7 @@ define([
         },   
         callbackForGridSelection: function(data) 
         {
-          //todo:add Code for create quote call
+           //TODO Add Method For API Call
         },
        
         filterGrid:function(collection, self)
@@ -137,43 +132,25 @@ define([
             var emailstring = "email cont";            
             var countrystring = "address.countrycode cont";            
             var zipcodestring = "address.postalorzipCode cont";
-            filterstring = "";
-            
-                if($("#searchAddress").val()!=="")
-                {                   
-                    self.createFilterString(addressstring, $("#searchAddress").val());                    
-                }
-                if($("#searchCity").val()!=="")
-                {
-                    self.createFilterString(citystring, $("#searchCity").val());                    
-                }
-                if($("#searchState").val()!=="")
-                {
-                    self.createFilterString(statestring, $("#searchState").val());                         
-                }
-                if($("#searchEmail").val()!=="")
-                {
-                    self.createFilterString(emailstring, $("#searchEmail").val());  
-                }
-                if($("#searchCountry").val()!=="")
-                {
-                    self.createFilterString(countrystring, $("#searchCountry").val());                     
-                }
-                if($("#searchZipCode").val()!=="")
-                {
-                    self.createFilterString(zipcodestring, $("#searchZipCode").val());  
-                }
-                collection.filterBy(filterstring);
-
+            filterstring = "";            
+            self.createFilterString(addressstring, $("#searchAddress").val());                  
+            self.createFilterString(citystring, $("#searchCity").val());                  
+            self.createFilterString(statestring, $("#searchState").val());                       
+            self.createFilterString(emailstring, $("#searchEmail").val());                
+            self.createFilterString(countrystring, $("#searchCountry").val());                                    
+            self.createFilterString(zipcodestring, $("#searchZipCode").val());                  
+            collection.filterBy(filterstring);
         },
         createFilterString:function(searchstring, searchvalue)
         {
+          if(searchvalue!=="")
+          {
             if (filterstring !== "") 
             {
                 filterstring = filterstring + " and ";
             }
             filterstring =filterstring + searchstring + " " + searchvalue; 
-
+          }
         },              
         renderView: function(template) {
             this.$el.html(this.template);

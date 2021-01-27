@@ -2,21 +2,7 @@
 define(["modules/api", 'underscore', "modules/backbone-mozu", 'modules/models-address',  "hyprlive", "modules/models-product"], function (api, _, Backbone, AddressModels, Hypr, ProductModels, ReturnModels) {
 
            
-    var QuoteItem = Backbone.MozuModel.extend({
-        relations: {
-            product: ProductModels.Product
-        },
-        helpers: ['uniqueProductCode'],
-        uniqueProductCode: function () {
-            //Takes into account product variation code
-            var self = this,
-                productCode = self.get('productCode');
-    
-            if (!productCode) {
-                productCode = (self.get('product').get('variationProductCode')) ? self.get('product').get('variationProductCode') : self.get('product').get('productCode');
-            }
-            return productCode;
-        },
+    var B2bContactItem = Backbone.MozuModel.extend({
         toJSON: function () {
             var j = Backbone.MozuModel.prototype.toJSON.apply(this, arguments);
             if (j.parent) {
@@ -26,15 +12,15 @@ define(["modules/api", 'underscore', "modules/backbone-mozu", 'modules/models-ad
         }
     }),
     
-        QuoteItemsList = Backbone.Collection.extend({
-            model: QuoteItem
+        b2bContactItemsList = Backbone.Collection.extend({
+            model: B2bContactItem
         }),
     
         B2bContact = Backbone.MozuModel.extend({
-            mozuType: 'quote',
+            mozuType: 'b2bcontact',
             idAttribute: 'id',
             relations: {
-                items: QuoteItemsList
+                items: b2bContactItemsList
             },
             handlesMessages: true,
             initialize: function () {
@@ -52,8 +38,9 @@ define(["modules/api", 'underscore', "modules/backbone-mozu", 'modules/models-ad
             }
         }),
         B2bContactCollection = Backbone.MozuPagedCollection.extend({
-            mozuType: 'quotes',
+            mozuType: 'b2bcontacts',
             defaults: {
+                startIndex:0,
                 pageSize: 5
             },
             relations: {
