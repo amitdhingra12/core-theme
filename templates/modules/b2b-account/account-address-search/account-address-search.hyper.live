@@ -20,12 +20,12 @@
     </div>   
     </br>
         <div>
-           <input type="text" name="searchEmail"    style = "margin-left:12%"  class="searchIcon" id="searchEmail"    data-mz-action="addEmailfilter" placeholder="Search Email">  
-           <input type="text" name="searchAddress" class="searchIcon" id="searchAddress"  data-mz-action="addAddressfilter" placeholder="Search Address">          
-           <input type="text" name="searchCity"    class="searchIcon" id="searchCity"     data-mz-action="addCityfilter" placeholder="Search City">                   
-           <input type="text" name="searchState"   class="searchIcon" id="searchState"    data-mz-action="addStatefilter" placeholder="Search State">                 
-            <input type="text" name="searchCountry" class="searchIcon" id="searchCountry"  data-mz-action="addCountryfilter" placeholder="Search Country">             
-            <input type="text" name="searchZipCode" class="searchIcon" id="searchZipCode"  data-mz-action="addZipCodefilter" placeholder="Search ZipCode">              
+           <input type="text" name="searchEmail"    class="searchIcon mz-email-text-margin" id="searchEmail"    data-mz-action="addEmailfilter" placeholder="Email">  
+           <input type="text" name="searchAddress"  class="searchIcon mz-text-margin" id="searchAddress"  data-mz-action="addAddressfilter" placeholder="Address">          
+           <input type="text" name="searchCity"     class="searchIcon mz-text-margin" id="searchCity"     data-mz-action="addCityfilter" placeholder="City">                   
+           <input type="text" name="searchState"    class="searchIcon mz-text-margin" id="searchState"    data-mz-action="addStatefilter" placeholder="State">                 
+            <input type="text" name="searchCountry" class="searchIcon mz-text-margin" id="searchCountry"  data-mz-action="addCountryfilter" placeholder="Country">             
+            <input type="text" name="searchZipCode" class="searchIcon mz-text-margin" id="searchZipCode"  data-mz-action="addZipCodefilter" placeholder="Zip Code">              
         </div>      
         <div class="mz-b2b-contacts-grid">
             <div class="is-loading"></div>
