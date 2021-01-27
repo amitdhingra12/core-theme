@@ -48,7 +48,9 @@
 {% endblock modal-body %} 
  <div class="modal-footer">
         {% block modal-footer %}
+        <div  class="mz-button-footer">
           <button type="button" class="mz-button" data-dismiss="modal">Close</button>
           <button type="button" class="mz-button" data-mz-action="handleDialogSave">Create quote</button>
+        </div>
         {% endblock modal-footer %}
   </div>
