@@ -26,12 +26,12 @@
     <div class="mz-quote-actions">
       {% if model.isSalesRep==true %}
         <button class="mz-button" >{{labels.approveQuote}}</button>
-        <button class="mz-button" data-mz-action="commitDraft" {% if model.hasDraft==false %} disabled {% endif %}>{{labels.denyAndSubmitEdits}}</button>
+        <button class="mz-button" data-mz-action="commitDraft" {% if isDraft==false %} disabled {% endif %}>{{labels.denyAndSubmitEdits}}</button>
       {% else %}
           <button class="mz-button" >{{labels.acceptChanges}}</button>
-          <button class="mz-button" data-mz-action="commitDraft" {% if model.hasDraft==false %} disabled {% endif %}>{{labels.submitDraft}}</button>        
+          <button class="mz-button" data-mz-action="commitDraft" {% if model.isDraft==false %} disabled {% endif %}>{{labels.submitDraft}}</button>        
       {% endif %}    
-    <button class="mz-button" data-mz-action="discardDraft" {% if model.hasDraft==false %} disabled {% endif %}>{{labels.discardDraft}}</button>
+    <button class="mz-button" data-mz-action="discardDraft" {% if model.isDraft==false %} disabled {% endif %}>{{labels.discardDraft}}</button>
     </div>
   </li>
 </ul>
