@@ -1,7 +1,7 @@
 {% extends "email/email" %}
 
 {% block body-content %}
-    <div class ="quote-name">{{labels.quoteName}}: {{model.name}} </div>
+    <div class ="quote-name">{{labels.quoteName}} {{model.name}} </div>
     <br/>
     <table class ="quote-details-table" width="100%" cellpadding="1" cellspacing="1" width="50%">
         <thead>
@@ -26,7 +26,7 @@
                     </tr>
                     <tr>
                         <th>{{labels.quoteSubmittedBy}}:</th>
-                        <td>{{model.auditInfo.createBy}}</td>
+                        <td>{{model.b2BAccount.users.0.firstName}} {{model.b2BAccount.users.0.lastName}}</td>
                     </tr>
                     <tr>
                         <th>{{labels.quoteExpirationDate}}:</th>
@@ -97,7 +97,7 @@
                 <p>{{labels.shippingInformation}}: </p>
                 <p>{{labels.handling}}: </p>
                 <p>{{labels.duty}}:</p>
-                <p>{{labels.total}}: </p>
+                <p class = "quote-total-summary-font">{{labels.total}}: </p>
             </td>
             <td>
                 {% if model.adjustment and model.adjustment.amount != 0 %}

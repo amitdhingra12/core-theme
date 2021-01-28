@@ -707,3 +707,7 @@ table {
   .quote-shipping-method {
     padding-bottom: 50px !important;
   }
+
+  .quote-total-summary-font {
+    font-size: 17px;
+  }
