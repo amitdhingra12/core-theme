@@ -19,6 +19,7 @@ define([
         var timeout = null;
         var pubsub = {};
         var wordCount = 3;
+        var createQuoteAccountId;
        
        
     var B2bContactsMozuGrid = MozuGrid.extend({
@@ -105,25 +106,34 @@ define([
                 }, 400); 
             }
             });      
-            $('[data-mz-action="clearSearch"]').on('click', function(e) {                 
-                 $("#searchAddress").val("");
-                 $("#searchCity").val("");
-                 $("#searchState").val("");
-                 $("#searchEmail").val("");
-                 $("#searchCountry").val("");
-                 $("#searchZipCode").val("") ;
-                 clearTimeout(timeout);             
-                 timeout = setTimeout(function () {
-                 self.filterGrid(collection, self);
-                 }, 400); 
-            });  
-                
-        },   
-        callbackForGridSelection: function(data) 
-        {
-           //TODO Add Method For API Call
+            //POST req to CreateQuote
+            $('[data-mz-action="createQuote"]').on("click", function (e) {
+                var quote = new QuoteModels.Quote(
+                    {
+                        "customerAccountId": createQuoteAccountId
+                    }
+                );
+                return quote.apiModel.create().then(function (res) {      
+                        window.location = "/selleraccount/quote/" + res.data.id + "/edit";                   
+                }, function (error) {
+                    self.showMessageBar(error);
+                });
+            });
+        
         },
-       
+        callbackForGridSelection: function (data) {
+            if (data !== undefined) {
+                this.model.set("b2bAccountCreateQuote", data.apiModel.data.accountId);
+                $("#createQuoteAfterSelect").prop("disabled", false);
+                createQuoteAccountId = data.apiModel.data.accountId;
+            }
+        },
+        showMessageBar: function (error) {
+            var self = this;
+            self.model.set("error", error);
+            self.model.syncApiModel();
+            self.render();
+        },
         filterGrid:function(collection, self)
         {
             var addressstring = "address.address1 cont";
