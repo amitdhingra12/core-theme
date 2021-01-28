@@ -670,6 +670,18 @@ table {
   .quote-account-details-table tr {
       line-height: 2px; 
   }
+
+  .quote-account-details-table th {
+    text-align: right;
+  }
+
+  .quoteSummary-font {
+    font-size: 15px;
+  }
+  .quote-shipping-child-table {
+    padding-top: 0px !important;
+  }
+
   .quote-shipping-summary {
     border-top: 2px solid #eeeeef;
   }
