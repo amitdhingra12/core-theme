@@ -214,6 +214,8 @@ define([
                 self.model.set(response.data);
                 self.model.syncApiModel();
                 self.render();
+            }, function (error) {
+                self.showMessageBar(error);
             });
         },
         updateItemQuantity: function (itemId, quantity, updateMode) {
@@ -234,6 +236,8 @@ define([
                         self.model.set(response.data);
                         self.model.syncApiModel();
                         self.render();
+                    }, function (error) {
+                            self.showMessageBar(error);
                     });
                 }
             }
@@ -285,6 +289,8 @@ define([
                         self.model.set(response.data);
                         self.model.syncApiModel();
                         self.render();
+                    }, function (error) {
+                        self.showMessageBar(error);
                     });
                 }
             }
@@ -450,6 +456,8 @@ define([
                         self.model.set("quoteUpdatedAdjustments", null);
                         self.model.syncApiModel();
                         self.render();
+                    }, function (error) {
+                        self.showMessageBar(error);
                     });
                 }
                 else {
@@ -527,6 +535,8 @@ define([
                 self.model.set("isEditSubmittedBy", false);
                 self.model.syncApiModel();
                 self.render();
+            }, function (error) {
+                self.showMessageBar(error);
             });
         },
         discardDraft: function () {
@@ -537,6 +547,8 @@ define([
             };
             return this.model.apiDelete(data).ensure(function (response) {
                 self.refreshQuote();
+            }, function (error) {
+                self.showMessageBar(error);
             });
         },
         commitDraft: function () {
@@ -551,6 +563,8 @@ define([
                 self.model.set(response.data);
                 self.model.syncApiModel();
                 self.render();
+            }, function (error) {
+                self.showMessageBar(error);
             });
         },
         getItem: function (itemId) {
@@ -685,8 +699,17 @@ define([
                     self.model.set(response.data);
                     self.model.syncApiModel();
                     self.render();
+                }, function (error) {
+                    self.showMessageBar(error);
                 });
             }
+        },
+        showMessageBar: function (error) {
+            var self = this;
+            self.model.set("error", error);
+            self.model.isLoading(false);
+            self.model.syncApiModel();
+            self.render();
         }
     });
 

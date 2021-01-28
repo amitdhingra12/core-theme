@@ -8,6 +8,9 @@
 </div>
 <ul class="mz-orderlist edit-quote-form">
   <li>
+    {% include "modules/b2b-account/quotes/quote-error-message-bar" with model=model %}
+  </li>
+  <li>
     {% include "modules/b2b-account/quotes/quote-details" with model=model %}
   </li>
   <li>
