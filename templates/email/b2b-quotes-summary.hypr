@@ -26,7 +26,7 @@
                     </tr>
                     <tr>
                         <th>{{labels.quoteSubmittedBy}}:</th>
-                        <td>{{model.b2BAccount.users.0.firstName}} {{model.b2BAccount.users.0.lastName}}</td>
+                        <td>{{model.b2bUsers.items.0.firstName}} {{model.b2bUsers.items.0.lastName}}</td>
                     </tr>
                     <tr>
                         <th>{{labels.quoteExpirationDate}}:</th>

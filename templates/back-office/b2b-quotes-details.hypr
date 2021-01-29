@@ -28,7 +28,7 @@
                             </tr>
                             <tr>
                                 <th>{{labels.quoteSubmittedBy}}:</th>
-                                <td>{{account.users.0.firstName}}  {{account.users.0.lastName}}</td>
+                                <td>{{userAccount.items.0.firstName}}  {{userAccount.items.0.lastName}}</td>
                             </tr>
                             <tr>
                                 <th>{{labels.quoteExpirationDate}}:</th>
