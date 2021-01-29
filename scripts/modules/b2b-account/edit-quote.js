@@ -329,8 +329,7 @@ define([
         },
         printQuote: function () {
             var quoteId = this.model.get('id');
-            //todo: need to revisit this later on once we completed the print quote api.
-            window.open('/quote/' + quoteId + '/print');
+            window.open('/back-office/quote/' + quoteId + '/print');
         },
         startEditingQuoteName: function () {
             var self = this;

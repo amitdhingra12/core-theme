@@ -40,7 +40,11 @@
             <dt>
               <b>{{labels.submittedDate}}:</b>
             </dt>
-            <dd>{{ model.auditInfo.submittedDate|date("m/d/Y") }}</dd>
+            <dd>
+              {% if model.submittedDate %}
+                {{ model.submittedDate|date("m/d/Y") }}
+              {% endif %}
+            </dd>
             <dt>
               <b>{{labels.submittedBy}}:</b>
             </dt>
