@@ -48,7 +48,7 @@
                           </select>
                         </td>
                         <td>
-                          <input type="number" step=".01" min="0" value="{{model.quoteUpdatedAdjustments.adjustmentAbs}}" {% if model.editAdjustments==false %} disabled {% endif %} ></input>
+                          <input type="number" step=".01" min="0" value="{{model.quoteUpdatedAdjustments.adjustmentActual}}" {% if model.editAdjustments==false %} disabled {% endif %} ></input>
                         </td>
                         <td>
                           <label>
@@ -122,7 +122,7 @@
                           </select>
                         </td>
                         <td>
-                          <input type="number" step=".01" min="0" value="{{model.quoteUpdatedAdjustments.shippingAdjustmentAbs}}" {% if model.editAdjustments==false %} disabled {% endif %} ></input>
+                          <input type="number" step=".01" min="0" value="{{model.quoteUpdatedAdjustments.shippingAdjustmentActual}}" {% if model.editAdjustments==false %} disabled {% endif %} ></input>
                         </td>
                         <td>
                           <label>
@@ -196,7 +196,7 @@
                           </select>
                         </td>
                         <td>
-                          <input type="number" step=".01" min="0" value="{{model.quoteUpdatedAdjustments.handlingAdjustmentAbs}}" {% if model.editAdjustments==false %} disabled {% endif %} ></input>
+                          <input type="number" step=".01" min="0" value="{{model.quoteUpdatedAdjustments.handlingAdjustmentActual}}" {% if model.editAdjustments==false %} disabled {% endif %} ></input>
                         </td>
                         <td>
                           <label>

@@ -412,7 +412,7 @@ define([
             var type = $(elementId + " input[name=" + field + "]:checked").first().val();
             var quoteUpdatedAdjustments = self.model.apiModel.data.quoteUpdatedAdjustments;
 
-            if (actualValue !== quoteUpdatedAdjustments[field]) {
+            if (actualValue !== quoteUpdatedAdjustments[field] || type !== quoteUpdatedAdjustments[field + 'Type']) {
 
                 var value = (action === "Add" ? actualValue : -actualValue) || 0;
 
@@ -422,6 +422,7 @@ define([
 
                 quoteUpdatedAdjustments[field] = value;
                 quoteUpdatedAdjustments[field + 'Abs'] = Math.abs(value);
+                quoteUpdatedAdjustments[field + 'Actual'] = actualValue;
                 quoteUpdatedAdjustments[field + 'Action'] = action;
                 quoteUpdatedAdjustments[field + 'Type'] = type;
                 self.model.set("quoteUpdatedAdjustments", quoteUpdatedAdjustments);
@@ -490,16 +491,19 @@ define([
                 var handlingAdjustment = quote.handlingAdjustment ? quote.handlingAdjustment.amount : null;
                 return {
                     "adjustment": adjustment,
+                    "adjustmentActual": adjustment ? Math.abs(adjustment) : null,
                     "adjustmentAbs": adjustment ? Math.abs(adjustment) : null,
                     "adjustmentType": defaultAdjustmentType,
                     "adjustmentAction": adjustment > 0 ? adjustmentAdd : adjustmentSubtract,
 
                     "shippingAdjustment": shippingAdjustment,
+                    "shippingAdjustmentActual": shippingAdjustment ? Math.abs(shippingAdjustment) : null,
                     "shippingAdjustmentAbs": shippingAdjustment ? Math.abs(shippingAdjustment) : null,
                     "shippingAdjustmentType": defaultAdjustmentType,
                     "shippingAdjustmentAction": shippingAdjustment > 0 ? adjustmentAdd : adjustmentSubtract,
 
                     "handlingAdjustment": handlingAdjustment,
+                    "handlingAdjustmentActual": handlingAdjustment ? Math.abs(handlingAdjustment) : null,
                     "handlingAdjustmentAbs": handlingAdjustment ? Math.abs(handlingAdjustment) : null,
                     "handlingAdjustmentType": defaultAdjustmentType,
                     "handlingAdjustmentAction": handlingAdjustment > 0 ? adjustmentAdd : adjustmentSubtract
