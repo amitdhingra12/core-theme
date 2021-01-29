@@ -22,7 +22,7 @@
                     </tr>
                     <tr>
                         <th>{{labels.quoteSubmittedDate}}:</th>
-                        <td>{{model.auditInfo.createDate|date("m/d/y")}}</td>
+                        <td>{{model.submittedDate|date("m/d/y")}}</td>
                     </tr>
                     <tr>
                         <th>{{labels.quoteSubmittedBy}}:</th>
