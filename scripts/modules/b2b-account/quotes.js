@@ -170,10 +170,10 @@ define([
             });
             $('[data-mz-action="create-quote"]').click(function (e) {
                 var createQuoteOnAccnt;
-                var accntType = "myaccount";
+                var accountType = "myaccount";
                 if (isSalesRep) {
                     //seller account
-                    accntType = 'selleraccount';
+                    accountType = 'selleraccount';
                     createQuoteOnAccnt = $("#selectb2bAccount").val();
                 } else {
                     // buyer account
@@ -185,7 +185,7 @@ define([
                 });
                 return quote.apiModel.create().then(function (res) {
                     window.location =
-                        "/" + accntType + "/quote/" + res.data.id + "/edit";
+                        "/" + accountType + "/quote/" + res.data.id + "/edit";
                 }, function (error) {
                     self.showMessageBar(error);
                 });
