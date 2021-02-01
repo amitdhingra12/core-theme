@@ -36,9 +36,9 @@ define([
             
             if (!self.model.get("b2bAccounts")) {                   
                 self.model.set("b2bAccounts", parentAccounts.attributes.accounts);
-                    self.render();
-             $(".modal-dialog").attr("id", "mz-child-modal");
-            }                       
+                    self.render();            
+            }
+            $(".modal-dialog").attr("id", "mz-child-modal");                       
         },
          validateEmail:function($email) {
             var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
