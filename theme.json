@@ -400,7 +400,7 @@
       "entityType": "quote.summary",
       "id": "quote.summary",
       "template": "back-office/b2b-quotes-details",
-      "title": "Quote summary",
+      "title": "Quote Summary",
       "userCreatable": false
     }
   ],
