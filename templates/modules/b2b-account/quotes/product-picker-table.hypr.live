@@ -94,7 +94,7 @@
         {{ item.discountTotal | currency}}
       </td>
       <td>
-        {{ item.subtotal | currency}}
+        {{ item.discountedTotal | currency}}
       </td>
       <td>
         <span class="img-action-button">

@@ -65,7 +65,11 @@ define([
                                 }
                             });
                         }
+                    }, function (error) {
+                        self.showMessageBar(error);
                     });
+                }, function (error) {
+                    self.showMessageBar(error);
                 });
             }
         },
@@ -210,10 +214,7 @@ define([
             };
             self.model.isLoading(true);
             self.model.apiModel.addItemToQuote(item).then(function (response) {
-                self.model.isLoading(false);
-                self.model.set(response.data);
-                self.model.syncApiModel();
-                self.render();
+                self.resetModel(response.data);
             }, function (error) {
                 self.showMessageBar(error);
             });
@@ -232,12 +233,9 @@ define([
                     };
                     self.model.isLoading(true);
                     self.model.apiModel.updateItemQuantity(data).then(function (response) {
-                        self.model.isLoading(false);
-                        self.model.set(response.data);
-                        self.model.syncApiModel();
-                        self.render();
+                        self.resetModel(response.data);
                     }, function (error) {
-                            self.showMessageBar(error);
+                        self.showMessageBar(error);
                     });
                 }
             }
@@ -285,10 +283,7 @@ define([
                     };
                     self.model.isLoading(true);
                     self.model.apiModel.updateItemProductPrice(data).then(function (response) {
-                        self.model.isLoading(false);
-                        self.model.set(response.data);
-                        self.model.syncApiModel();
-                        self.render();
+                        self.resetModel(response.data);
                     }, function (error) {
                         self.showMessageBar(error);
                     });
@@ -372,14 +367,21 @@ define([
         },
         startEditingSubmittedBy: function () {
             var self = this;
+            self.model.isLoading(true);
             self.model.set("isEditSubmittedBy", true);
+            var customerAccountId = self.model.get('customerAccountId');
             if (!self.model.get('b2bUsers')) {
-                var b2bAccount = new B2BAccountModels.b2bAccount({ id: self.model.get('customerAccountId') });
+                var b2bAccount = new B2BAccountModels.b2bAccount({ id: customerAccountId });
                 b2bAccount.apiGet().then(function (account) {
                     return b2bAccount.apiGetUsers().then(function (users) {
+                        self.model.isLoading(false);
                         self.model.set("b2bUsers", users.data.items);
                         self.render();
+                    }, function (error) {
+                        self.showMessageBar(error);
                     });
+                }, function (error) {
+                    self.showMessageBar(error);
                 });
             }
             else {
@@ -390,6 +392,7 @@ define([
             var self = this;
             var userId = $('#submittedBy').val();
             if (userId) {
+                self.model.set('fullName', null);
                 self.model.set('userId', userId);
                 self.updateQuote();
             }
@@ -452,10 +455,13 @@ define([
                     self.model.apiModel.updateQuoteAdjustment(quoteAdjustmentAfter).then(function (response) {
                         self.model.isLoading(false);
                         self.model.set(response.data);
+                        self.model.set("error", null);
                         self.model.set("editAdjustments", false);
                         self.model.set("quoteUpdatedAdjustments", null);
                         self.model.syncApiModel();
                         self.render();
+
+
                     }, function (error) {
                         self.showMessageBar(error);
                     });
@@ -533,6 +539,7 @@ define([
             return this.model.apiUpdate().then(function (response) {
                 self.model.isLoading(false);
                 self.model.set(response.data);
+                self.model.set("error", null);
                 self.model.set("isEditQuoteName", false);
                 self.model.set("isEditExpirationDate", false);
                 self.model.set("isEditSubmittedBy", false);
@@ -548,7 +555,7 @@ define([
                 id: self.model.get('id'),
                 draft: true
             };
-            return this.model.apiDelete(data).ensure(function (response) {
+            return this.model.apiDelete(data).then(function (response) {
                 self.refreshQuote();
             }, function (error) {
                 self.showMessageBar(error);
@@ -562,10 +569,7 @@ define([
             var self = this;
             self.model.isLoading(true);
             self.model.apiGet({ id: self.model.get('id'), draft: true }).then(function (response) {
-                self.model.isLoading(false);
-                self.model.set(response.data);
-                self.model.syncApiModel();
-                self.render();
+                self.resetModel(response.data);
             }, function (error) {
                 self.showMessageBar(error);
             });
@@ -698,10 +702,7 @@ define([
                 item.updatemode = updateMode;
                 self.model.isLoading(true);
                 self.model.apiModel.updateItemFulfillment(item).then(function (response) {
-                    self.model.isLoading(false);
-                    self.model.set(response.data);
-                    self.model.syncApiModel();
-                    self.render();
+                    self.resetModel(response.data);
                 }, function (error) {
                     self.showMessageBar(error);
                 });
@@ -711,6 +712,14 @@ define([
             var self = this;
             self.model.set("error", error);
             self.model.isLoading(false);
+            self.model.syncApiModel();
+            self.render();
+        },
+        resetModel: function (data) {
+            var self = this;
+            self.model.isLoading(false);
+            self.model.set(data);
+            self.model.set('error', null);
             self.model.syncApiModel();
             self.render();
         }
