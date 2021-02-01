@@ -273,10 +273,10 @@
       "title": "Customer In Transit"
     },
     {
-      "id": "b2b.quotedetails",
+      "id": "quote.summary",
       "properties": {},
       "template": "email/b2b-quotes-summary",
-      "title": "B2b Quote Summary"
+      "title": "Quote Summary"
     }
   ],
   "backOfficeTemplates": [
@@ -397,10 +397,10 @@
       "userCreatable": false
     },
     {
-      "entityType": "b2b-quote-details",
-      "id": "b2b-quote-details",
+      "entityType": "quote.summary",
+      "id": "quote.summary",
       "template": "back-office/b2b-quotes-details",
-      "title": "B2b Quote Details",
+      "title": "Quote summary",
       "userCreatable": false
     }
   ],
