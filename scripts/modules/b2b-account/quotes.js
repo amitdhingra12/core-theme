@@ -211,7 +211,7 @@ define([
         filterGrid: function (nameValue, dateValue, collection) {
             filterstring = "";
             if (nameValue !== "") {
-                nameValue = nameFilter + nameValue;
+                nameValue =  nameFilter+ '"'+ nameValue+'"';
                 filterstring = nameValue;
                 if (dateValue !== "") {
                     dateValue = expirationDateFilter + dateValue + timeComponent;
