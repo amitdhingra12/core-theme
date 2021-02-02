@@ -74,21 +74,8 @@
         </div>
         {% endif %}
       </td>
-      <td class="unit-price">
-        {% if item.editUnitPrice==false %}
-        {{ item.unitPrice.extendedAmount | currency}}
-        <span>
-          &nbsp;&nbsp;&nbsp;
-          <img src="/resources/images/edit.png" class="action-icon" data-mz-quote-item="{{ item.id }}" data-mz-action="startEditingItemPrice" />
-        </span>
-        {% else %}
-        <input type="number" name="unitPrice" step=".01" class="txt-unit-price" data-mz-quote-item="{{ item.id }}" data-mz-value="unitPrice" value="{{ item.unitPrice.extendedAmount }}" />
-        <span>
-          &nbsp;
-          <button class="mz-button mz-button" data-mz-quote-item="{{ item.id }}" data-mz-action="updateQuoteItemPrice">{{labels.save}}</button> &nbsp;
-          <button class="mz-button mz-button" data-mz-quote-item="{{ item.id }}" data-mz-action="cancelQuotePriceUpdate">{{labels.cancel}}</button>
-        </span>
-        {% endif %}
+      <td class="unit-price input-inner-spin-button">
+        <input type="text" name="unitPrice" class="txt-unit-price" data-mz-quote-item="{{ item.id }}" data-mz-value="unitPrice" value="{{ item.unitPrice.extendedAmount | currency }}" />
       </td>
       <td>
         {{ item.discountTotal | currency}}
@@ -103,7 +90,5 @@
       </td>
     </tr>
     {% endfor %}
-
-
   </tbody>
 </table>

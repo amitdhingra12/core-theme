@@ -20,6 +20,7 @@ define([
     var defaultAdjustmentType = "$";
     var applyToDraft = 'ApplyToDraft';
     var applyAndCommit = 'ApplyAndCommit';
+    var currentCurrencySymbol = require.mozuData('pagecontext').currencyInfo.symbol;
 
     var QuoteEditView = Backbone.MozuView.extend({
         templateName: 'modules/b2b-account/quotes/edit-quote',
@@ -44,6 +45,7 @@ define([
             self.onQuoteAdjustmentChange('#shippingAdjustmentSection', 'shippingAdjustment', self.model.apiModel.data.shippingSubTotal);
             self.onQuoteAdjustmentChange('#handlingAdjustmentSection', 'handlingAdjustment', self.model.apiModel.data.handlingSubTotal);
             self.onQuantityChange();
+            self.onPriceChange();
             self.onFulfillmentMethodChnage();
 
             //initialize the store picker model
@@ -120,6 +122,46 @@ define([
                 }, 600);
             });
         },
+
+        onPriceChange: function () {
+            var self = this;
+
+            $('.mz-product-picker-table input[data-mz-value=unitPrice]').keyup(function (e) {
+                e.preventDefault();
+                var value = $(this).val();
+                if (value) {
+                    //override garbage characters
+                    $(this).val(value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1'));
+
+                    var itemId = e.currentTarget.getAttribute("data-mz-quote-item");
+                    var price = parseFloat($(this).val());
+
+                    clearTimeout(timeout);
+                    timeout = setTimeout(function () {
+                        $(this).trigger('blur'); 
+                        if (itemId && price > 0) {
+                            self.updateItemPrice(itemId, price);
+                        }
+                    }, 600);
+                }
+            });
+
+            $('.mz-product-picker-table input[data-mz-value=unitPrice]').focusin(function (e) {
+                var value = $(this).val();
+                if (value) {
+                    $(this).val(value.replace(currentCurrencySymbol, ""));
+                }
+            });
+
+            $('.mz-product-picker-table input[data-mz-value=unitPrice]').focusout(function (e) {
+                var value = $(this).val();
+                if (value && !value.includes(currentCurrencySymbol)) {
+                    $(this).val(currentCurrencySymbol + value);
+                    $(this).trigger('blur'); 
+                }
+            });
+        },
+
         onFulfillmentMethodChnage: function () {
             var self = this;
             $('.mz-product-picker-table select[data-mz-value=fulfillmentMethod]').change(function () {
@@ -240,35 +282,7 @@ define([
                 }
             }
         },
-        startEditingItemPrice: function (e) {
-            var self = this;
-            var currentTargetId = e.currentTarget.id;
-            var itemId = e.currentTarget.getAttribute("data-mz-quote-item");
-            if (itemId) {
-                self.setFlagOnItem(itemId, "editUnitPrice", true);
-                self.render();
-            }
-        },
-        cancelQuotePriceUpdate: function (e) {
-            var self = this;
-            var currentTargetId = e.currentTarget.id;
-            var itemId = e.currentTarget.getAttribute("data-mz-quote-item");
-            if (itemId) {
-                self.setFlagOnItem(itemId, "editUnitPrice", false);
-                self.render();
-            }
-        },
-        updateQuoteItemPrice: function (e) {
-            var self = this;
-            var currentTargetId = e.currentTarget.id;
-            var itemId = e.currentTarget.getAttribute("data-mz-quote-item");
-            var price = parseFloat($('.mz-product-picker-table input[data-mz-quote-item=' + itemId + '][data-mz-value=unitPrice]').val());
 
-            if (itemId && price > 0) {
-                self.setFlagOnItem(itemId, "editUnitPrice", false);
-                self.updateItemPrice(itemId, price);
-            }
-        },
         updateItemPrice: function (itemId, price, updateMode) {
             var self = this;
             if (itemId && price > 0) {
@@ -317,8 +331,7 @@ define([
             var isSalesRep = require.mozuData('user').isSalesRep;
             if (isSalesRep) {
                 window.location.href = "/selleraccount";
-            }
-            else {
+            } else {
                 window.location.href = "/myaccount";
             }
         },
