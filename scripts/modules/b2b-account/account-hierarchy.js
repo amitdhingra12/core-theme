@@ -116,12 +116,13 @@ define(["modules/jquery-mozu", 'modules/api', "underscore", "hyprlive", "modules
                 item.canViewAccount = self.isUserAdmin() || self.isUserPurchaser();
                 item.canChangeParentAccount = self.isUserAdmin();
             }
-            if(item.canViewAccount===   true)
+           
+            item.account = self.getAccount(item.id, accounts);
+
+            if(item.canViewAccount === true && item.account.isActive === true)
             {
                 userChildAccounts.push(item);
             }
-
-            item.account = self.getAccount(item.id, accounts);
 
             if (item.children) {
                 //loop over descendants.
