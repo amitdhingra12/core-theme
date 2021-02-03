@@ -124,6 +124,7 @@ define([
                     window.location.reload();
                     $(':input[type="submit"]').prop('disabled', true);
                 }, function (error) {
+                    error.message = Hypr.getLabel('errorMessage') + " " + error.message;
                     self.showMessageBar(Hypr.getLabel('errorMessage') + error);
                 });
 
