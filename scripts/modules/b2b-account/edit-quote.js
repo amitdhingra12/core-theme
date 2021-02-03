@@ -510,19 +510,16 @@ define([
                 var handlingAdjustment = quote.handlingAdjustment ? quote.handlingAdjustment.amount : null;
                 return {
                     "adjustment": adjustment,
-                    "adjustmentActual": adjustment ? Math.abs(adjustment) : null,
                     "adjustmentAbs": adjustment ? Math.abs(adjustment) : null,
                     "adjustmentType": defaultAdjustmentType,
                     "adjustmentAction": adjustment > 0 ? adjustmentAdd : adjustmentSubtract,
 
                     "shippingAdjustment": shippingAdjustment,
-                    "shippingAdjustmentActual": shippingAdjustment ? Math.abs(shippingAdjustment) : null,
                     "shippingAdjustmentAbs": shippingAdjustment ? Math.abs(shippingAdjustment) : null,
                     "shippingAdjustmentType": defaultAdjustmentType,
                     "shippingAdjustmentAction": shippingAdjustment > 0 ? adjustmentAdd : adjustmentSubtract,
 
                     "handlingAdjustment": handlingAdjustment,
-                    "handlingAdjustmentActual": handlingAdjustment ? Math.abs(handlingAdjustment) : null,
                     "handlingAdjustmentAbs": handlingAdjustment ? Math.abs(handlingAdjustment) : null,
                     "handlingAdjustmentType": defaultAdjustmentType,
                     "handlingAdjustmentAction": handlingAdjustment > 0 ? adjustmentAdd : adjustmentSubtract
