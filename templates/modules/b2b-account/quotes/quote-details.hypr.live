@@ -38,11 +38,11 @@
 
             </dd>
             <dt>
-              <b>{{labels.submittedDate}}:</b>
+              <b>{{labels.createdDate}}:</b>
             </dt>
             <dd>
-              {% if model.submittedDate %}
-                {{ model.submittedDate|date("m/d/Y") }}
+              {% if model.auditInfo.createDate %}
+                {{ model.auditInfo.createDate|date("m/d/Y") }}
               {% endif %}
             </dd>
             <dt>
