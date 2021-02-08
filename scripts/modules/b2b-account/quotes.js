@@ -1,3 +1,4 @@
+
 define([
     "modules/jquery-mozu",
     'modules/api',
@@ -30,7 +31,7 @@ define([
         var isSalesRep = require.mozuData('user').isSalesRep;
         var accountDict = {};
         var uniqueAccountId = [];
-    var QuotesMozuGrid = MozuGrid.extend({
+        var QuotesMozuGrid = MozuGrid.extend({
         render: function () {
             var self = this;
             if (isSalesRep)
@@ -136,6 +137,15 @@ define([
                 }
             }
 
+            $('#accountDropdown').change(function(e) {
+                
+                var nameValue = $(this).val();
+                if ($("#accountDropdown").val() !== "")
+                {
+                   var status  = $("#accountDropdown").val();
+                    self.filterGridbyStatus(collection);
+                }
+            });
             $('[data-mz-action="applyfilter"]').on('keyup input', function(e) {
                 e.preventDefault();
                 clearTimeout(timeout);
@@ -154,7 +164,7 @@ define([
                 var nameValue ="";
                 if ($("#searchName").val()!=="")
                 {
-                    nameValue  = $("#searchName").val();
+                    nameValue  = + $("#searchName").val() +"'";
                 }
                 var dateValue =  $(this).val();
                 self.filterGrid(nameValue, dateValue, collection);
@@ -162,10 +172,19 @@ define([
             
             this.initializeGrid(collection);
         },
+        filterGridbyStatus:function(collection)
+        {
+            filterstring = "";
+            $("#accountDropdown").val();
+            {
+                filterstring = "status cont " + $("#accountDropdown").val();
+            }
+            collection.filterBy(filterstring);
+        },
         filterGrid: function (nameValue, dateValue, collection) {
             filterstring = "";
             if (nameValue !== "") {
-                nameValue = nameFilter + nameValue;
+                nameValue =  nameFilter+ '"'+ nameValue+'"';
                 filterstring = nameValue;
                 if (dateValue !== "") {
                     dateValue = expirationDateFilter + dateValue + timeComponent;
