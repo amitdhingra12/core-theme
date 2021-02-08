@@ -31,7 +31,7 @@ define([
             },
             render: function (dropdownAccounts) {
                 var self = this;
-
+               
                 Backbone.MozuView.prototype.render.apply(this, arguments);
 
                 if (!self.model.get("b2bAccounts")) {
@@ -39,7 +39,9 @@ define([
                     self.render();                  
                 }
                 $(".modal-dialog").attr("id", "mz-child-modal");
+
             },
+            
             validateEmail: function ($email) {
                 var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
                 return emailReg.test($email);
@@ -49,12 +51,13 @@ define([
                 this.$el.html(this.template);
                 this.$el.modal({ show: true }); // dont show modal on instantiation
             },
-            createAccount: function () {
-                var self = this;
+            createAccount: function ()
+            {                    
+                var self = this;                
                 self.validateInput(self);
 
                 if (self.isValid) {
-                    self.createQuoteApiCall($, B2BAccountModels);
+                    self.createAccountApiCall($, B2BAccountModels);
                 }
             },
             validateInput: function (self) {
@@ -98,7 +101,7 @@ define([
 
             },
 
-            createQuoteApiCall: function ($, B2BAccountModels) {
+            createAccountApiCall: function ($, B2BAccountModels) {
                 var self = this;
                 var json = JSON.parse(JSON.stringify(
                     {
@@ -119,21 +122,31 @@ define([
                         "accountType": "B2B"
                     }));
 
+                    $(':input[type="submit"]').prop('disabled', true);
+                    $('.mz-cancel-button').prop('disabled', true);
                 var apib2bAccount = new B2BAccountModels.b2bAccount(json);
                 apib2bAccount.apiModel.create().then(function (res) {
                     window.location.reload();
-                    $(':input[type="submit"]').prop('disabled', true);
+                   
                 }, function (error) {
                     error.message = Hypr.getLabel('errorMessage') + " " + error.message;
-                    self.showMessageBar(Hypr.getLabel('errorMessage') + error);
+                    self.showMessageBar(error);
+                    $(':input[type="submit"]').prop('disabled', false);
+                    $('.mz-cancel-button').prop('disabled', false);
                 });
 
             },
             showMessageBar: function (error) {
                 var self = this;
                 self.model.set("error", error);
-                self.model.syncApiModel();
-                self.render();
+                $('.mz-messagebar').empty(); 
+                this.$('.mz-messagebar').append(                
+                "<div class='mz-messagebar' data-mz-mozu-message-bar>"+
+                "<ul class='is-showing mz-errors'>"+ "<li class='mz-message-item'>"+error.message+"</li>"+
+                "</ul>"+
+                "<span class='dismiss-message' data-mz-action='dismissMessage'>X</span>"+
+                "</div>"                
+                );                           
             }
         });
         return {
