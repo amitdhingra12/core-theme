@@ -11,8 +11,7 @@
       </div>
 {% block modal-body %} 
 <div id="quotes-messages">
-    {% include "modules/common/message-bar" with model=model.messages %}
-    {% include "modules/b2b-account/quotes/quote-error-message-bar" with model=model %}
+    {% include "modules/common/message-bar" with model=model.messages %} 
 </div>
  <div>
 <form>
